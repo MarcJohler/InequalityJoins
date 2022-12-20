@@ -44,6 +44,33 @@ def naive_ineqjoin(R, S, r, s, op):
             j += 1
     return [item for sublist in result for item in sublist]
 
+def naive_ineqjoin_lowsel(R, S, r, s, op):
+    # initialize the arrays in the right order
+    r_sorted = np.sort(R[r])
+    rid = np.argsort(R[r])
+    s_sorted = np.sort(S[s])
+    sid = np.argsort(S[s])
+    if op in [operator.lt, operator.le]:
+        s_sorted = s_sorted[::-1]
+        sid = sid[::-1]
+    elif op in [operator.gt, operator.ge]:
+        r_sorted = r_sorted[::-1]
+        rid = rid[::-1]
+        
+    result = []
+    # check for the inequality constraints
+    for i in range(len(r_sorted)):
+        j = 0
+        while j < len(s_sorted): 
+            if op(r_sorted[i], s_sorted[j]):
+                result.append((rid[rid.index[i]], sid[sid.index[j]]))  
+            else:
+                # remember the indices from the second relation
+                s_sorted = s_sorted[0:j]
+                break
+            j += 1
+    return result
+
 # computes the antijoin with multiple join predicates
 def naive_ineqjoin_multicond(R, S, r, s, op):
     # check if the arguments are consistent
@@ -54,6 +81,48 @@ def naive_ineqjoin_multicond(R, S, r, s, op):
     results = np.repeat(None, condition_len)
     for i in range(condition_len):
         results[i] = naive_ineqjoin(R, S, r[i], s[i], op[i])
+    # only consider tuples which fulfill every join condition
+    for i in range(condition_len - 1):
+        results[i + 1] = set(results[i]).intersection(set(results[i + 1]))
+    
+    return list(results[-1])
+
+def naive_ineqjoin_lowsel_multicond(R, S, r, s, op):
+    # check if the arguments are consistent
+    condition_len = len(op)
+    assert len(s) == condition_len
+    assert len(r) == condition_len
+    # for each join condition check the valid tuples
+    results = np.repeat(None, condition_len)
+    for i in range(condition_len):
+        results[i] = naive_ineqjoin_lowsel(R, S, r[i], s[i], op[i])
+    # only consider tuples which fulfill every join condition
+    for i in range(condition_len - 1):
+        results[i + 1] = set(results[i]).intersection(set(results[i + 1]))
+    
+    return list(results[-1])
+
+# compute the antijoin with multiple join predicates by estimating selectivity
+def flexible_ineqjoin_multicond(R, S, r, s, op, sample_p = 0.01):
+    # check if the arguments are consistent
+    condition_len = len(op)
+    assert len(s) == condition_len
+    assert len(r) == condition_len
+    # for each join condidtion check the valid tuples
+    results = np.repeat(None, condition_len)
+    for i in range(condition_len):
+        n_R = int(np.ceil(len(R) * sample_p))
+        n_S = int(np.ceil(len(S) * sample_p))
+        R_samp = R.sample(n_R)
+        S_samp = S.sample(n_S)
+        sample_result = naive_ineqjoin(R_samp, S_samp, r[i], s[i], op[i])
+        #estimate selectivity
+        sel = len(sample_result) / (n_R * n_S)
+        # take optimal algorithm dependent on selectivity
+        if sel > 0.2:
+            results[i] = naive_ineqjoin(R, S, r[i], s[i], op[i])
+        else:
+            results[i] = naive_ineqjoin_lowsel(R, S, r[i], s[i], op[i])
     # only consider tuples which fulfill every join condition
     for i in range(condition_len - 1):
         results[i + 1] = set(results[i]).intersection(set(results[i + 1]))
