@@ -65,8 +65,17 @@ def compute_permutation_array(arr1, arr2):
     assert len(arr1) == len(arr2)
     perm_arr = np.zeros(len(arr1))
     for i in range(len(arr2)):
-        perm_arr[i] = np.where(arr1 == arr2[i])
+        perm_arr[i] = int(np.where(arr1 == arr2[i])[0])
     return perm_arr
+
+# compute the offset from a tuple within the relation
+def compute_offset(new_tuple, relation, by, ascending):
+    union = relation.append(new_tuple)
+    union.index = list(relation.index) + ["findme"]
+    # order union
+    union = union.sort_values(by = by, ascending = ascending)
+    offset = int(np.where(union.index == "findme")[0])
+    return offset
 
 # computes the IE_join with two join predicates
 def IE_join(R, S, r, s, op):
@@ -75,14 +84,14 @@ def IE_join(R, S, r, s, op):
     assert len(s) == 2
     assert len(r) == 2
     # extract the respective columns
-    r0_sorted = np.sort(R[r[0]])
-    rid0 = np.argsort(R[r[0]])
-    r1_sorted = np.sort(R[r[1]])
-    rid1 = np.argsort(R[r[1]])
-    s0_sorted = np.sort(S[s[0]])
-    sid0 = np.argsort(S[s[0]])
-    s1_sorted = np.sort(S[s[1]])
-    sid1 = np.argsort(S[s[1]])
+    #r0_sorted = np.sort(R[r[0]])
+    #rid0 = np.argsort(R[r[0]])
+    #r1_sorted = np.sort(R[r[1]])
+    #rid1 = np.argsort(R[r[1]])
+    #s0_sorted = np.sort(S[s[0]])
+    #sid0 = np.argsort(S[s[0]])
+    #s1_sorted = np.sort(S[s[1]])
+    #sid1 = np.argsort(S[s[1]])
     # sort according to the operator
     """
     sort r0 and s0 in a way that the tuples which are most likely to be on the 
@@ -99,22 +108,41 @@ def IE_join(R, S, r, s, op):
             ascending w.r.t. to 0
         else:
             descending w.r.t. to 0
+        
     
+    Afterwards compute offsets
+    """
     
-    if op[0] in [operator.gt, operator.ge]:
-        r0_sorted = r0_sorted[::-1]
-        rid0 = rid0[::-1]
-        s0_sorted = s0_sorted[::-1]
-        sid0 = sid0[::-1]
-    if op[1] in [operator.lt, operator.le]:
-        r1_sorted = r1_sorted[::-1]
-        rid1 = rid1[::-1]
-        s1_sorted = s1_sorted[::-1]
-        sid1 = sid1[::-1]
+    # find out the necessary order
+    if op[0] in [operator.gt, operator.ge] and op[1] in [operator.gt, operator.ge]:
+        ascending0 = [False, False]
+        ascending1 = [True, False]
+    elif op[0] in [operator.lt, operator.le] and op[1] in [operator.gt, operator.ge]:
+        ascending0 = [True, False]
+        ascending1 = [True, True]
+    elif op[0] in [operator.gt, operator.ge] and op[1] in [operator.lt, operator.le]:
+        ascending0 = [False, True]
+        ascending1 = [False, False]
+    elif op[0] in [operator.lt, operator.le] and op[1] in [operator.lt, operator.le]:
+        ascending0 = [True, True]
+        ascending1 = [False, True]
     
+    # apply the order to the relations accordingly
+    R0 = R.sort_values(by = r, ascending = ascending0)
+    S0 = S.sort_values(by = s, ascending = ascending0)
+    R1 = R.sort_values(by = r[::-1], ascending = ascending1)
+    S1 = S.sort_values(by = s[::-1], ascending = ascending1)
     # compute the permutation arrays
-    p_r = compute_permutation_array(rid1, rid0)
-    p_s = compute_permutation_array(sid1, sid0)
+    p_r = compute_permutation_array(R0.index, R1.index)
+    p_s = compute_permutation_array(S0.index, S1.index)
+    # compute the offset arrays
+    o0 = np.zeros(len(R0))
+    o1 = np.zeros(len(R1))
+    for i in range(len(R0)):
+        o0[i] = compute_offset(R0.loc[i], S0, s, ascending0)
+        o1[i] = compute_offset(R1.loc[i], S1, s[::-1], ascending1)
+        
+    
     
     
     
