@@ -8,21 +8,18 @@ Created on Tue Dec 20 00:52:08 2022
 import pandas as pd
 import numpy as np
 import operator
-from classes import naive_antijoin, naive_antijoin_multicond, IE_join
+from classes import naive_antijoin_multicond, IE_join
 
-np.random.seed(42)
-n1 = 4
-duration1 = np.random.randint(100, size = n1)
-cost1 = np.random.randint(100, size = n1)
+duration1 = np.array([140, 100, 90])
+cost1 = np.array([10, 12, 5])
 R = {'duration':duration1, 'cost':cost1}
 R = pd.DataFrame(R)
 
-n2 = 5
-duration2 = np.random.randint(100, size = n2)
-cost2 = np.random.randint(100, size = n2)
+duration2 = np.array([100, 120, 90, 90])
+cost2 = np.array([6, 11, 10, 6])
 S = {'duration':duration2, 'cost':cost2}
 S = pd.DataFrame(S)
 
-ajoin_result = naive_antijoin_multicond(R, S, ["duration", "cost"], ["duration", "cost"], [operator.lt, operator.gt])
+naive_join_result = naive_antijoin_multicond(R, S, ["duration", "cost"], ["duration", "cost"], [operator.le, operator.ge])
 
-IE_join(R, S, ["duration", "cost"], ["duration", "cost"], [operator.lt, operator.gt])
+ie_join_result = IE_join(R, S, ["duration", "cost"], ["duration", "cost"], [operator.le, operator.ge])

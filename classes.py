@@ -63,7 +63,7 @@ def naive_antijoin_multicond(R, S, r, s, op):
 # computes the permutation array for the IE Join
 def compute_permutation_array(arr1, arr2):
     assert len(arr1) == len(arr2)
-    perm_arr = np.zeros(len(arr1))
+    perm_arr = np.repeat(0, len(arr1))
     for i in range(len(arr2)):
         perm_arr[i] = int(np.where(arr1 == arr2[i])[0])
     return perm_arr
@@ -136,13 +136,36 @@ def IE_join(R, S, r, s, op):
     p_r = compute_permutation_array(R0.index, R1.index)
     p_s = compute_permutation_array(S0.index, S1.index)
     # compute the offset arrays
-    o0 = np.zeros(len(R0))
-    o1 = np.zeros(len(R1))
+    o0 = np.repeat(0, len(R0))
+    o1 = np.repeat(0, len(R1))
     for i in range(len(R0)):
-        o0[i] = compute_offset(R0.loc[i], S0, s, ascending0)
-        o1[i] = compute_offset(R1.loc[i], S1, s[::-1], ascending1)
-        
+        o0[i] = compute_offset(R0.loc[R0.index[i]], S0, s, ascending0)
+        o1[i] = compute_offset(R1.loc[R1.index[i]], S1, s[::-1], ascending1)
+         
+    B = np.zeros(len(S0))
+    result = []
     
+    # start the join process
+    for i in range(len(R0)):
+        # save the tuple for later usage
+        r1_i_id = R1.index[i]
+        r1_i_tup = R1.loc[r1_i_id]
+        # check if it's the first tuple
+        if i == 0:
+            start = 0
+        else:
+            start = o1[i - 1]
+        # fill up binary index structure
+        for j in range(start, o1[i]):
+            B[p_s[j]] = 1
+        # check for pairs fulfilling the condition
+        off1 = o0[p_r[i]]
+        for k in range(off1, len(S0)):
+            if B[k] == 1:
+                # check if constraint is fulfilled
+                s0_k_id = S0.index[k]
+                s0_k_tup = S0.loc[s0_k_id]
+                if op[0](r1_i_tup[r[0]], s0_k_tup[s[0]]) and op[1](r1_i_tup[r[1]], s0_k_tup[s[1]]):
+                    result.append((r1_i_id, s0_k_id))
     
-    
-    
+    return result
