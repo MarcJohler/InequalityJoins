@@ -83,16 +83,7 @@ def IE_join(R, S, r, s, op):
     assert len(op) == 2
     assert len(s) == 2
     assert len(r) == 2
-    # extract the respective columns
-    #r0_sorted = np.sort(R[r[0]])
-    #rid0 = np.argsort(R[r[0]])
-    #r1_sorted = np.sort(R[r[1]])
-    #rid1 = np.argsort(R[r[1]])
-    #s0_sorted = np.sort(S[s[0]])
-    #sid0 = np.argsort(S[s[0]])
-    #s1_sorted = np.sort(S[s[1]])
-    #sid1 = np.argsort(S[s[1]])
-    # sort according to the operator
+    
     """
     sort r0 and s0 in a way that the tuples which are most likely to be on the 
     right-handside of the join condition are right in the order (predicate 0) has
