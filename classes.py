@@ -16,7 +16,7 @@ def pairs(arr1, arr2):
     return output
     
 # computes the antijoin with one join predicates
-def naive_antijoin(R, S, r, s, op):
+def naive_ineqjoin(R, S, r, s, op):
     # initialize the arrays in the right order
     r_sorted = np.sort(R[r])
     rid = np.argsort(R[r])
@@ -45,7 +45,7 @@ def naive_antijoin(R, S, r, s, op):
     return [item for sublist in result for item in sublist]
 
 # computes the antijoin with multiple join predicates
-def naive_antijoin_multicond(R, S, r, s, op):
+def naive_ineqjoin_multicond(R, S, r, s, op):
     # check if the arguments are consistent
     condition_len = len(op)
     assert len(s) == condition_len
@@ -53,7 +53,7 @@ def naive_antijoin_multicond(R, S, r, s, op):
     # for each join condition check the valid tuples
     results = np.repeat(None, condition_len)
     for i in range(condition_len):
-        results[i] = naive_antijoin(R, S, r[i], s[i], op[i])
+        results[i] = naive_ineqjoin(R, S, r[i], s[i], op[i])
     # only consider tuples which fulfill every join condition
     for i in range(condition_len - 1):
         results[i + 1] = set(results[i]).intersection(set(results[i + 1]))

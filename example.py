@@ -8,7 +8,7 @@ Created on Tue Dec 20 00:52:08 2022
 import pandas as pd
 import numpy as np
 import operator
-from classes import naive_antijoin_multicond, IE_join
+from classes import naive_ineqjoin_multicond, IE_join
 
 duration1 = np.array([140, 100, 90])
 cost1 = np.array([10, 12, 5])
@@ -20,6 +20,5 @@ cost2 = np.array([6, 11, 10, 6])
 S = {'duration':duration2, 'cost':cost2}
 S = pd.DataFrame(S)
 
-naive_join_result = naive_antijoin_multicond(R, S, ["duration", "cost"], ["duration", "cost"], [operator.le, operator.ge])
-
+naive_join_result = naive_ineqjoin_multicond(R, S, ["duration", "cost"], ["duration", "cost"], [operator.le, operator.ge])
 ie_join_result = IE_join(R, S, ["duration", "cost"], ["duration", "cost"], [operator.le, operator.ge])
