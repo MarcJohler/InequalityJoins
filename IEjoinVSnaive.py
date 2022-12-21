@@ -80,7 +80,6 @@ ax.legend()
 plt.show()
 
 
-"""
 # run this for investigation of the relation size
 n_sizes = 12
 sizes = [(i + 1) * 50 for i in range(n_sizes)]
@@ -142,4 +141,3 @@ plt.scatter(sizes, ie_timeVSsize, label = "IEJoin")
 plt.scatter(sizes, nl_timeVSsize, label = "Nested Loop")
 ax.legend()
 plt.show()
-"""
