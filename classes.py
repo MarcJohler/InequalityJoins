@@ -103,7 +103,7 @@ def naive_ineqjoin_lowsel_multicond(R, S, r, s, op):
     return list(results[-1])
 
 # compute the antijoin with multiple join predicates by estimating selectivity
-def flexible_ineqjoin_multicond(R, S, r, s, op, sample_p = 0.01):
+def flexible_ineqjoin_multicond(R, S, r, s, op, sample_p = 0.05):
     # check if the arguments are consistent
     condition_len = len(op)
     assert len(s) == condition_len
@@ -119,7 +119,7 @@ def flexible_ineqjoin_multicond(R, S, r, s, op, sample_p = 0.01):
         #estimate selectivity
         sel = len(sample_result) / (n_R * n_S)
         # take optimal algorithm dependent on selectivity
-        if sel > 0.2:
+        if sel > 0.05:
             results[i] = naive_ineqjoin(R, S, r[i], s[i], op[i])
         else:
             results[i] = naive_ineqjoin_lowsel(R, S, r[i], s[i], op[i])
@@ -198,6 +198,8 @@ def IE_join(R, S, r, s, op):
     # compute the offset arrays
     o0 = np.repeat(0, len(R0))
     o1 = np.repeat(0, len(R1))
+    
+    # this is potentially the bottleneck (how can this be implemented smarter?)
     for i in range(len(R0)):
         o0[i] = compute_offset(R0.loc[R0.index[i]], S0, s, ascending0)
         o1[i] = compute_offset(R1.loc[R1.index[i]], S1, s[::-1], ascending1)
