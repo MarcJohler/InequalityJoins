@@ -82,6 +82,21 @@ def intersect_pairs(pair_lists, pair_list_lengths):
     for i in range(1, len(length_order)):
         result = set(result).intersection(set(pair_lists[length_order[i]]))
     return result
+
+# computes the antijoin with multiple join predicates
+def naive_ineqjoin_multicond_OLD(R, S, r, s, op):
+    # check if the arguments are consistent
+    condition_len = len(op)
+    assert len(s) == condition_len
+    assert len(r) == condition_len
+    # for each join condition check the valid tuples
+    results = np.repeat(None, condition_len)
+    res_lengths = np.repeat(0, condition_len)
+    for i in range(condition_len):
+        results[i], res_lengths[i] = naive_ineqjoin(R, S, r[i], s[i], op[i])
+    for i in range(condition_len - 1):
+        results[i + 1] = set(results[i]).intersection(set(results[i + 1]))
+    return list(results[-1])
         
 # computes the antijoin with multiple join predicates
 def naive_ineqjoin_multicond(R, S, r, s, op):
@@ -240,4 +255,24 @@ def IE_join(R, S, r, s, op):
                 if op[0](r1_i_tup[r[0]], s0_k_tup[s[0]]) and op[1](r1_i_tup[r[1]], s0_k_tup[s[1]]):
                     result.append((r1_i_id, s0_k_id))
     
+    return result
+
+def nested_loop_ineqjoin(R, S, r, s, op):
+    # check if the arguments are consistent
+    condition_len = len(op)
+    assert len(s) == condition_len
+    assert len(r) == condition_len
+    result = []
+    # loop over all tuples in R and S and check join condition
+    for i in range(len(R)):
+        R_i = R.loc[i]
+        for j in range(len(S)):
+            S_j = S.loc[j]
+            pred_fulfilled = True
+            for k in range(condition_len):
+                if not op[k](R_i[k], S_j[k]):
+                    pred_fulfilled = False
+                    break
+            if pred_fulfilled:
+                result.append((i, j))
     return result

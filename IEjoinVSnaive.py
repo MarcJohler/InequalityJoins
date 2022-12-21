@@ -12,7 +12,7 @@ import time
 import matplotlib.pyplot as plt
 from classes import naive_ineqjoin_multicond, IE_join
 
-test_cases = 100
+test_cases = 10
 np.random.seed(21)
 
 selectivity = np.zeros(test_cases)
@@ -46,8 +46,8 @@ for i in range(test_cases):
     naive_join_set = set(naive_join_result)
     ie_join_set = set(ie_join_result)
     
-    assert naive_join_set.issubset(ie_join_result)
-    assert naive_join_set.issuperset(ie_join_result)
+    assert naive_join_set.issubset(ie_join_set)
+    assert naive_join_set.issuperset(ie_join_set)
     
     # save selectivity
     selectivity[i] = len(naive_join_set) / (n1 * n2)
