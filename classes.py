@@ -216,12 +216,12 @@ def flexible_ineqjoin_multicond(R, S, r, s, op, sample_p = 0.05):
         n_S = int(np.ceil(len(S) * sample_p))
         R_samp = R.sample(n_R)
         S_samp = S.sample(n_S)
-        _, sample_res_len = naive_ineqjoin(R_samp, S_samp, r[i], s[i], op[i])
+        _, sample_res_len = jvec_ineqjoin(R_samp, S_samp, r[i], s[i], op[i])
         #estimate selectivity
         sel = sample_res_len / (n_R * n_S)
         # take optimal algorithm dependent on selectivity
-        if sel < 0.5:
-            results[i], res_lengths[i] = ivec_ineqjoin(R, S, r[i], s[i], op[i])
+        if sel < 0.6:
+            results[i], res_lengths[i] = jvec_ineqjoin(R, S, r[i], s[i], op[i])
         else:
             results[i], res_lengths[i] = naive_ineqjoin(R, S, r[i], s[i], op[i])
     # only consider tuples which fulfill every join condition
