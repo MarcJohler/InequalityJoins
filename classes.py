@@ -128,7 +128,7 @@ def jvec_ineqjoin(R, S, r, s, op):
     for i in range(len(r_sorted)):
         while 0 < len(s_sorted): 
             if op(r_sorted[i], s_sorted[0]):
-                result.append(pairs([rid[sid.index[i]]], list(sid[0:])))
+                result.append(pairs([rid[rid.index[i]]], list(sid[0:])))
                 break
             else: 
                 # delete indices from list
@@ -137,6 +137,7 @@ def jvec_ineqjoin(R, S, r, s, op):
                     sid = sid[1:]
                 else:
                     done = True
+                    break
         # check if all entries have already been checked
         if done:
             break
