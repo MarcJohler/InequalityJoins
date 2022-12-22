@@ -12,7 +12,7 @@ import time
 import matplotlib.pyplot as plt
 from classes import naive_ineqjoin_multicond, naive_ineqjoin_multicond_OLD
 
-test_cases = 100
+test_cases = 20
 #np.random.seed(21)
 
 selectivity = np.zeros(test_cases)
