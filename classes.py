@@ -30,16 +30,15 @@ def naive_ineqjoin(R, S, r, s, op):
         sid = sid[::-1]
     
     result = []
-    max_j = len(sid)
     # check for the inequality constraints
     for i in range(len(r_sorted)):
         j = 0
         while j < len(s_sorted): 
             if op(r_sorted[i], s_sorted[j]):
-                result.append(pairs(list(rid[i:]), list(sid[:max_j])[j:]))  
+                result.append(pairs(list(rid[i:]), list(sid[j:])))  
                 # remember the indices from the second relation
                 s_sorted = s_sorted[0:j]
-                max_j = j
+                sid = sid[0:j]
                 break
             j += 1
     result = [item for sublist in result for item in sublist]
@@ -72,6 +71,79 @@ def naive_ineqjoin_lowsel(R, S, r, s, op):
                 break
             j += 1
     return result, len(result)
+
+# this should be the most efficient approach
+def ivec_ineqjoin(R, S, r, s, op):
+    # initialize the arrays in the right order
+    r_sorted = np.sort(R[r])
+    rid = np.argsort(R[r])
+    s_sorted = np.sort(S[s])
+    sid = np.argsort(S[s])
+    if op in [operator.lt, operator.le]:
+        r_sorted = r_sorted[::-1]
+        rid = rid[::-1]
+        s_sorted = s_sorted[::-1]
+        sid = sid[::-1]
+    
+    result = []
+    done = False
+    # check for the inequality constraints
+    for i in range(len(r_sorted)):
+        j = 0
+        while j < len(s_sorted): 
+            if op(r_sorted[i], s_sorted[j]):
+                result.append(pairs(list(rid[i:]), [sid[sid.index[j]]]))
+                # check if all entries have been checked
+                if j + 1 == len(s_sorted):
+                    done = True
+            else: 
+                # remember the indices from the second relation
+                s_sorted = s_sorted[j:]
+                sid = sid[j:]
+                break
+            j += 1
+        # check if all entries have already been checked
+        if done:
+            break
+            
+    result = [item for sublist in result for item in sublist]
+    return result, len(result)
+
+# this should be the most efficient approach
+def jvec_ineqjoin(R, S, r, s, op):
+    # initialize the arrays in the right order
+    r_sorted = np.sort(R[r])
+    rid = np.argsort(R[r])
+    s_sorted = np.sort(S[s])
+    sid = np.argsort(S[s])
+    if op in [operator.gt, operator.ge]:
+        r_sorted = r_sorted[::-1]
+        rid = rid[::-1]
+        s_sorted = s_sorted[::-1]
+        sid = sid[::-1]
+    
+    result = []
+    done = False
+    # check for the inequality constraints
+    for i in range(len(r_sorted)):
+        while 0 < len(s_sorted): 
+            if op(r_sorted[i], s_sorted[0]):
+                result.append(pairs([rid[sid.index[i]]], list(sid[0:])))
+                break
+            else: 
+                # delete indices from list
+                if len(s_sorted) > 1:
+                    s_sorted = s_sorted[1:]
+                    sid = sid[1:]
+                else:
+                    done = True
+        # check if all entries have already been checked
+        if done:
+            break
+            
+    result = [item for sublist in result for item in sublist]
+    return result, len(result)
+        
 
 # function to compute the intersection of a list of tuple pairs efficiently
 def intersect_pairs(pair_lists, pair_list_lengths):
@@ -128,6 +200,7 @@ def naive_ineqjoin_lowsel_multicond(R, S, r, s, op):
     result = intersect_pairs(results, res_lengths)
     return result
    
+
 # compute the antijoin with multiple join predicates by estimating selectivity
 def flexible_ineqjoin_multicond(R, S, r, s, op, sample_p = 0.05):
     # check if the arguments are consistent
@@ -146,10 +219,40 @@ def flexible_ineqjoin_multicond(R, S, r, s, op, sample_p = 0.05):
         #estimate selectivity
         sel = sample_res_len / (n_R * n_S)
         # take optimal algorithm dependent on selectivity
-        if sel > 0.05:
-            results[i], res_lengths[i] = naive_ineqjoin(R, S, r[i], s[i], op[i])
+        if sel < 0.5:
+            results[i], res_lengths[i] = ivec_ineqjoin(R, S, r[i], s[i], op[i])
         else:
-            results[i], res_lengths[i] = naive_ineqjoin_lowsel(R, S, r[i], s[i], op[i])
+            results[i], res_lengths[i] = naive_ineqjoin(R, S, r[i], s[i], op[i])
+    # only consider tuples which fulfill every join condition
+    result = intersect_pairs(results, res_lengths)
+    return result
+
+# computes the inequality join hopefully very efficient
+def ivec_ineqjoin_multicond(R, S, r, s, op):
+    # check if the arguments are consistent
+    condition_len = len(op)
+    assert len(s) == condition_len
+    assert len(r) == condition_len
+    # for each join condition check the valid tuples
+    results = np.repeat(None, condition_len)
+    res_lengths = np.repeat(0, condition_len)
+    for i in range(condition_len):
+        results[i], res_lengths[i] = ivec_ineqjoin(R, S, r[i], s[i], op[i])
+    # only consider tuples which fulfill every join condition
+    result = intersect_pairs(results, res_lengths)
+    return result
+
+# computes the inequality join hopefully very efficient
+def jvec_ineqjoin_multicond(R, S, r, s, op):
+    # check if the arguments are consistent
+    condition_len = len(op)
+    assert len(s) == condition_len
+    assert len(r) == condition_len
+    # for each join condition check the valid tuples
+    results = np.repeat(None, condition_len)
+    res_lengths = np.repeat(0, condition_len)
+    for i in range(condition_len):
+        results[i], res_lengths[i] = jvec_ineqjoin(R, S, r[i], s[i], op[i])
     # only consider tuples which fulfill every join condition
     result = intersect_pairs(results, res_lengths)
     return result
