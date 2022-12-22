@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 from classes import naive_ineqjoin_multicond, IE_join, nested_loop_ineqjoin
 
 test_cases = 50
-#np.random.seed(21)
+np.random.seed(1)
 
 selectivity = np.zeros(test_cases)
 naive_time = np.zeros(test_cases)
@@ -22,13 +22,13 @@ nl_time = np.zeros(test_cases)
 
 # run this for comparison with constant relation sizes and variable selectivities
 for i in range(test_cases):
-    n1 = 200
+    n1 = 20
     duration1 = np.random.randint(int(np.random.randint(1, 100, size = 1)), size = n1)
     cost1 = np.random.randint(int(np.random.randint(1, 100, size = 1)), size = n1)
     R = {'duration':duration1, 'cost':cost1}
     R = pd.DataFrame(R)
     
-    n2 = 200
+    n2 = 20
     duration2 = np.random.randint(int(np.random.randint(1, 100, size = 1)), size = n2)
     cost2 = np.random.randint(int(np.random.randint(1, 100, size = 1)), size = n2)
     S = {'duration':duration2, 'cost':cost2}

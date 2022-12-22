@@ -211,11 +211,15 @@ def flexible_ineqjoin_multicond(R, S, r, s, op, sample_p = 0.05):
     # for each join condidtion check the valid tuples
     results = np.repeat(None, condition_len)
     res_lengths = np.repeat(0, condition_len)
+    # prepared sample relations
+    """
+    TO-DO: find a more efficient estimation for selectivity
+    """
+    n_R = int(np.ceil(len(R) * sample_p))
+    n_S = int(np.ceil(len(S) * sample_p))
+    R_samp = R.sample(n_R)
+    S_samp = S.sample(n_S)
     for i in range(condition_len):
-        n_R = int(np.ceil(len(R) * sample_p))
-        n_S = int(np.ceil(len(S) * sample_p))
-        R_samp = R.sample(n_R)
-        S_samp = S.sample(n_S)
         _, sample_res_len = jvec_ineqjoin(R_samp, S_samp, r[i], s[i], op[i])
         #estimate selectivity
         sel = sample_res_len / (n_R * n_S)
@@ -266,14 +270,114 @@ def compute_permutation_array(arr1, arr2):
         perm_arr[i] = int(np.where(arr1 == arr2[i])[0])
     return perm_arr
 
-# compute the offset from a tuple within the relation
-def compute_offset(new_tuple, relation, by, ascending):
-    union = relation.append(new_tuple)
-    union.index = list(relation.index) + ["findme"]
-    # order union
-    union = union.sort_values(by = by, ascending = ascending)
-    offset = int(np.where(union.index == "findme")[0])
-    return offset
+# find the position of a value in a column of a relation
+def val_pos_in_rel(new_val, relation, relation_idx, positions, 
+                   by, op_prev, op_nex, return_first = False):
+    relation_len = len(relation_idx)
+    current_pos = 0
+    divisor = 2
+    equal_to_new_val = []
+    
+    # sort according to the first attribute
+    while True:
+        prev_correct = True
+        nex_correct = True
+        if current_pos > 0:
+            prev = relation.loc[relation_idx[current_pos - 1]][by]
+            if op_prev(prev, new_val):
+                prev_correct = False
+        if current_pos < relation_len:
+            nex = relation.loc[relation_idx[current_pos]][by]
+            if op_nex(nex, new_val):
+                nex_correct = False
+        if not prev_correct: 
+            current_pos = int(np.max([0, current_pos - np.ceil(relation_len / divisor)]))
+            divisor = divisor * 2
+        elif not nex_correct:
+            current_pos = int(np.min([relation_len, current_pos + np.ceil(relation_len / divisor)]))
+            divisor = divisor * 2
+        elif return_first:
+            if current_pos >= relation_len:
+                return positions[current_pos - 1] + 1
+            return positions[current_pos]
+        else:
+            for i in range(relation_len - current_pos):
+                if relation.loc[relation_idx[current_pos + i]][by] == new_val:
+                    equal_to_new_val.append(current_pos + i)
+                else:
+                    break
+            break
+        
+    # check if the position is already clear
+    position_found = None
+    if len(equal_to_new_val) == 0:
+        if current_pos >= relation_len:
+            position_found = positions[current_pos - 1] + 1
+        else:
+            position_found = positions[current_pos]
+    
+    # extract the tuples from the relation with the same value
+    relation_idx = [relation_idx[i] for i in equal_to_new_val]
+    positions = [positions[i] for i in equal_to_new_val]
+    
+    return relation_idx, positions, position_found
+       
+
+# compute the position of a tuple in a relation
+def tuple_pos_in_rel(new_tuple, relation, tuple_var, relation_var, 
+                     relation_idx, positions, ascending):
+    new_val0 = new_tuple[tuple_var[0]]
+    new_val1 = new_tuple[tuple_var[1]]
+    
+    # define the right operators
+    if ascending[0]:
+        op0prev = operator.ge
+        op0nex = operator.lt
+    else:
+        op0prev = operator.le
+        op0nex = operator.gt
+    
+    relation_idx, positions, position_found = val_pos_in_rel(new_val0, relation, relation_idx, positions, 
+                                                             relation_var[0], op0prev, op0nex, return_first = False)
+    
+    # if the position could be identified return it
+    if position_found is not None:
+        return position_found
+    
+    if ascending[1]:
+        op1prev = operator.ge
+        op1nex = operator.lt
+    else:
+        op1prev = operator.le
+        op1nex = operator.gt   
+        
+    position = val_pos_in_rel(new_val1, relation, relation_idx, positions, 
+                              relation_var[1], op1prev, op1nex, return_first = True)
+    
+    return position
+
+# compute the offset of all tuples of R in S
+def compute_offset(R, S, r, s, ascending):
+    max_position = len(S)
+    offsets_len = len(R)
+    offsets = np.repeat(0, offsets_len)
+    S_indices_complete = S.index
+    positions_complete = [i for i in range(offsets_len)]
+    S_indices_current = S.index
+    positions_current = [i for i in range(offsets_len)]
+    for i in range(offsets_len):
+        position = tuple_pos_in_rel(R.loc[R.index[i]], S, r, s, 
+                                    S_indices_current, positions_current, ascending)
+        # if maximum position is already reached, use this position for all remaining tuples
+        if position == max_position:
+            offsets[i:] = position
+            break
+        
+        # otherwise update the index and position structures and save the offset for the current tuple
+        offsets[i] = position
+        S_indices_current = S_indices_complete[position:]
+        positions_current = positions_complete[position:]
+    return offsets
 
 # computes the IE_join with two join predicates
 def IE_join(R, S, r, s, op):
@@ -325,13 +429,8 @@ def IE_join(R, S, r, s, op):
     p_r = compute_permutation_array(R0.index, R1.index)
     p_s = compute_permutation_array(S0.index, S1.index)
     # compute the offset arrays
-    o0 = np.repeat(0, len(R0))
-    o1 = np.repeat(0, len(R1))
-    
-    # this is potentially the bottleneck (how can this be implemented smarter?)
-    for i in range(len(R0)):
-        o0[i] = compute_offset(R0.loc[R0.index[i]], S0, s, ascending0)
-        o1[i] = compute_offset(R1.loc[R1.index[i]], S1, s[::-1], ascending1)
+    o0 = compute_offset(R0, S0, r, s, ascending0)
+    o1 = compute_offset(R1, S1, r[::-1], s[::-1], ascending1)
          
     B = np.zeros(len(S0))
     result = []

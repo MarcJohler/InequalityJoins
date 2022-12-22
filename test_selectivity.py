@@ -32,9 +32,9 @@ ivec_time = np.zeros(test_cases)
 jvec_time = np.zeros(test_cases)
 
 for i in range(test_cases):
-    predicate_len = 10
+    predicate_len = 2
     
-    n1 = 500
+    n1 = 1000
     R = np.random.randint(np.random.randint(1, 50), size = (n1, predicate_len)) 
     R = pd.DataFrame(R)
     
@@ -43,7 +43,7 @@ for i in range(test_cases):
     S = pd.DataFrame(S)
     
     #define random operators
-    operators = np.random.choice([operator.lt, operator.le], predicate_len)
+    operators = np.random.choice([operator.lt, operator.le, operator.ge, operator.lt], predicate_len)
     
     #tic_nl = time.perf_counter()
     #nl_join_result = nested_loop_ineqjoin(R, S,  [j for j in range(predicate_len)], [j for j in range(predicate_len)], operators)
