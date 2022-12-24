@@ -12,7 +12,7 @@ import time
 import matplotlib.pyplot as plt
 from classes import naive_ineqjoin_multicond, IE_join, nested_loop_ineqjoin
 
-test_cases = 50
+test_cases = 5
 np.random.seed(1)
 
 selectivity = np.zeros(test_cases)
@@ -22,15 +22,15 @@ nl_time = np.zeros(test_cases)
 
 # run this for comparison with constant relation sizes and variable selectivities
 for i in range(test_cases):
-    n1 = 20
-    duration1 = np.random.randint(int(np.random.randint(1, 100, size = 1)), size = n1)
-    cost1 = np.random.randint(int(np.random.randint(1, 100, size = 1)), size = n1)
+    n1 = 600
+    duration1 = np.random.randint(5, size = n1)
+    cost1 = np.random.randint(1000, size = n1)
     R = {'duration':duration1, 'cost':cost1}
     R = pd.DataFrame(R)
     
-    n2 = 20
-    duration2 = np.random.randint(int(np.random.randint(1, 100, size = 1)), size = n2)
-    cost2 = np.random.randint(int(np.random.randint(1, 100, size = 1)), size = n2)
+    n2 = 600
+    duration2 = np.random.randint(1000, size = n2)
+    cost2 = np.random.randint(5, size = n2)
     S = {'duration':duration2, 'cost':cost2}
     S = pd.DataFrame(S)
     
@@ -44,20 +44,22 @@ for i in range(test_cases):
     ie_join_result = IE_join(R, S, ["duration", "cost"], ["duration", "cost"], [operator.lt, operator.gt])
     toc_ie = time.perf_counter()
     
+    """
     # measure time for ie approach
     tic_nl = time.perf_counter()
     nl_join_result = nested_loop_ineqjoin(R, S,  ["duration", "cost"], ["duration", "cost"], [operator.lt, operator.gt])
     toc_nl = time.perf_counter()
+    """
     
     # check if results are correct
     naive_join_set = set(naive_join_result)
     ie_join_set = set(ie_join_result)
-    nl_join_set = set(nl_join_result)
+    #nl_join_set = set(nl_join_result)
     
     assert naive_join_set.issubset(ie_join_set)
     assert naive_join_set.issuperset(ie_join_set)
-    assert naive_join_set.issubset(nl_join_set)
-    assert naive_join_set.issuperset(nl_join_set)
+    #assert naive_join_set.issubset(nl_join_set)
+    #assert naive_join_set.issuperset(nl_join_set)
     
     # save selectivity
     selectivity[i] = len(naive_join_set) / (n1 * n2)
@@ -67,19 +69,19 @@ for i in range(test_cases):
     naive_time[i] = toc_n - tic_n
     print("Time for ie approach:", {toc_ie - tic_ie})
     ie_time[i] = toc_ie - tic_ie
-    print("Time for nested loop approach:", {toc_nl - tic_nl})
-    nl_time[i] = toc_nl - tic_nl
+    #print("Time for nested loop approach:", {toc_nl - tic_nl})
+    #nl_time[i] = toc_nl - tic_nl
     
 
 # It is clear that the naive approach performs better than IEJoin
 fig, ax = plt.subplots()
 plt.scatter(selectivity, naive_time, label = "Naive Approach")
 plt.scatter(selectivity, ie_time, label = "IEJoin")
-plt.scatter(selectivity, nl_time, label = "Nested Loop")
+#plt.scatter(selectivity, nl_time, label = "Nested Loop")
 ax.legend()
 plt.show()
 
-
+"""
 # run this for investigation of the relation size
 n_sizes = 12
 sizes = [(i + 1) * 50 for i in range(n_sizes)]
@@ -141,3 +143,4 @@ plt.scatter(sizes, ie_timeVSsize, label = "IEJoin")
 plt.scatter(sizes, nl_timeVSsize, label = "Nested Loop")
 ax.legend()
 plt.show()
+"""
