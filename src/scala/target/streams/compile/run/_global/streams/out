@@ -1,0 +1,168 @@
+[0m[[0m[31merror[0m] [0m[0morg.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 0.0 failed 1 times, most recent failure: Lost task 0.0 in stage 0.0 (TID 0) (LAPTOP-4LJKQ855 executor driver): java.lang.RuntimeException: Error while encoding: java.lang.RuntimeException: java.lang.Integer is not a valid external type for schema of double[0m
+[0m[[0m[31merror[0m] [0m[0mif (assertnotnull(input[0, org.apache.spark.sql.Row, true]).isNullAt) null else validateexternaltype(getexternalrowfield(assertnotnull(input[0, org.apache.spark.sql.Row, true]), 0, 1), DoubleType, false) AS 1#0[0m
+[0m[[0m[31merror[0m] [0m[0mif (assertnotnull(input[0, org.apache.spark.sql.Row, true]).isNullAt) null else validateexternaltype(getexternalrowfield(assertnotnull(input[0, org.apache.spark.sql.Row, true]), 1, 2), DoubleType, false) AS 2#1[0m
+[0m[[0m[31merror[0m] [0m[0mif (assertnotnull(input[0, org.apache.spark.sql.Row, true]).isNullAt) null else validateexternaltype(getexternalrowfield(assertnotnull(input[0, org.apache.spark.sql.Row, true]), 2, 3), DoubleType, false) AS 3#2[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.errors.QueryExecutionErrors$.expressionEncodingError(QueryExecutionErrors.scala:1237)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.encoders.ExpressionEncoder$Serializer.apply(ExpressionEncoder.scala:210)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.encoders.ExpressionEncoder$Serializer.apply(ExpressionEncoder.scala:193)[0m
+[0m[[0m[31merror[0m] [0m[0m	at scala.collection.Iterator$$anon$9.next(Iterator.scala:577)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIteratorForCodegenStage1.processNext(Unknown Source)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.WholeStageCodegenExec$$anon$1.hasNext(WholeStageCodegenExec.scala:760)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.SparkPlan.$anonfun$getByteArrayRdd$1(SparkPlan.scala:364)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2(RDD.scala:890)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2$adapted(RDD.scala:890)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:52)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:365)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.RDD.iterator(RDD.scala:329)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:90)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.scheduler.Task.run(Task.scala:136)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:548)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1504)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:551)[0m
+[0m[[0m[31merror[0m] [0m[0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)[0m
+[0m[[0m[31merror[0m] [0m[0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)[0m
+[0m[[0m[31merror[0m] [0m[0m	at java.base/java.lang.Thread.run(Thread.java:829)[0m
+[0m[[0m[31merror[0m] [0m[0mCaused by: java.lang.RuntimeException: java.lang.Integer is not a valid external type for schema of double[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.expressions.GeneratedClass$SpecificUnsafeProjection.If_0$(Unknown Source)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.expressions.GeneratedClass$SpecificUnsafeProjection.apply(Unknown Source)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.encoders.ExpressionEncoder$Serializer.apply(ExpressionEncoder.scala:207)[0m
+[0m[[0m[31merror[0m] [0m[0m	... 19 more[0m
+[0m[[0m[31merror[0m] [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0mDriver stacktrace:[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.scheduler.DAGScheduler.failJobAndIndependentStages(DAGScheduler.scala:2672)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.scheduler.DAGScheduler.$anonfun$abortStage$2(DAGScheduler.scala:2608)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.scheduler.DAGScheduler.$anonfun$abortStage$2$adapted(DAGScheduler.scala:2607)[0m
+[0m[[0m[31merror[0m] [0m[0m	at scala.collection.immutable.List.foreach(List.scala:333)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:2607)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.scheduler.DAGScheduler.$anonfun$handleTaskSetFailed$1(DAGScheduler.scala:1182)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.scheduler.DAGScheduler.$anonfun$handleTaskSetFailed$1$adapted(DAGScheduler.scala:1182)[0m
+[0m[[0m[31merror[0m] [0m[0m	at scala.Option.foreach(Option.scala:437)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:1182)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:2860)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2802)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:2791)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:49)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:952)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.SparkContext.runJob(SparkContext.scala:2228)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.SparkContext.runJob(SparkContext.scala:2249)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.SparkContext.runJob(SparkContext.scala:2268)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.SparkPlan.executeTake(SparkPlan.scala:506)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.SparkPlan.executeTake(SparkPlan.scala:459)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.CollectLimitExec.executeCollect(limit.scala:48)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.Dataset.collectFromPlan(Dataset.scala:3868)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.Dataset.$anonfun$head$1(Dataset.scala:2863)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.Dataset.$anonfun$withAction$2(Dataset.scala:3858)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.QueryExecution$.withInternalError(QueryExecution.scala:510)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.Dataset.$anonfun$withAction$1(Dataset.scala:3856)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$6(SQLExecution.scala:109)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:169)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withNewExecutionId$1(SQLExecution.scala:95)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.SparkSession.withActive(SparkSession.scala:779)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:64)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.Dataset.withAction(Dataset.scala:3856)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.Dataset.head(Dataset.scala:2863)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.Dataset.take(Dataset.scala:3084)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.Dataset.getRows(Dataset.scala:288)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.Dataset.showString(Dataset.scala:327)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.Dataset.show(Dataset.scala:808)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.Dataset.show(Dataset.scala:767)[0m
+[0m[[0m[31merror[0m] [0m[0m	at inequality_joins.Main$.main(Main.scala:31)[0m
+[0m[[0m[31merror[0m] [0m[0m	at inequality_joins.Main.main(Main.scala)[0m
+[0m[[0m[31merror[0m] [0m[0m	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)[0m
+[0m[[0m[31merror[0m] [0m[0m	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)[0m
+[0m[[0m[31merror[0m] [0m[0m	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)[0m
+[0m[[0m[31merror[0m] [0m[0m	at java.base/java.lang.reflect.Method.invoke(Method.java:566)[0m
+[0m[[0m[31merror[0m] [0m[0m	at sbt.Run.invokeMain(Run.scala:143)[0m
+[0m[[0m[31merror[0m] [0m[0m	at sbt.Run.execute$1(Run.scala:93)[0m
+[0m[[0m[31merror[0m] [0m[0m	at sbt.Run.$anonfun$runWithLoader$5(Run.scala:120)[0m
+[0m[[0m[31merror[0m] [0m[0m	at sbt.Run$.executeSuccess(Run.scala:186)[0m
+[0m[[0m[31merror[0m] [0m[0m	at sbt.Run.runWithLoader(Run.scala:120)[0m
+[0m[[0m[31merror[0m] [0m[0m	at sbt.Defaults$.$anonfun$bgRunTask$6(Defaults.scala:1980)[0m
+[0m[[0m[31merror[0m] [0m[0m	at sbt.Defaults$.$anonfun$termWrapper$2(Defaults.scala:1919)[0m
+[0m[[0m[31merror[0m] [0m[0m	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)[0m
+[0m[[0m[31merror[0m] [0m[0m	at scala.util.Try$.apply(Try.scala:213)[0m
+[0m[[0m[31merror[0m] [0m[0m	at sbt.internal.BackgroundThreadPool$BackgroundRunnable.run(DefaultBackgroundJobService.scala:369)[0m
+[0m[[0m[31merror[0m] [0m[0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)[0m
+[0m[[0m[31merror[0m] [0m[0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)[0m
+[0m[[0m[31merror[0m] [0m[0m	at java.base/java.lang.Thread.run(Thread.java:829)[0m
+[0m[[0m[31merror[0m] [0m[0mCaused by: java.lang.RuntimeException: Error while encoding: java.lang.RuntimeException: java.lang.Integer is not a valid external type for schema of double[0m
+[0m[[0m[31merror[0m] [0m[0mif (assertnotnull(input[0, org.apache.spark.sql.Row, true]).isNullAt) null else validateexternaltype(getexternalrowfield(assertnotnull(input[0, org.apache.spark.sql.Row, true]), 0, 1), DoubleType, false) AS 1#0[0m
+[0m[[0m[31merror[0m] [0m[0mif (assertnotnull(input[0, org.apache.spark.sql.Row, true]).isNullAt) null else validateexternaltype(getexternalrowfield(assertnotnull(input[0, org.apache.spark.sql.Row, true]), 1, 2), DoubleType, false) AS 2#1[0m
+[0m[[0m[31merror[0m] [0m[0mif (assertnotnull(input[0, org.apache.spark.sql.Row, true]).isNullAt) null else validateexternaltype(getexternalrowfield(assertnotnull(input[0, org.apache.spark.sql.Row, true]), 2, 3), DoubleType, false) AS 3#2[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.errors.QueryExecutionErrors$.expressionEncodingError(QueryExecutionErrors.scala:1237)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.encoders.ExpressionEncoder$Serializer.apply(ExpressionEncoder.scala:210)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.encoders.ExpressionEncoder$Serializer.apply(ExpressionEncoder.scala:193)[0m
+[0m[[0m[31merror[0m] [0m[0m	at scala.collection.Iterator$$anon$9.next(Iterator.scala:577)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIteratorForCodegenStage1.processNext(Unknown Source)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.WholeStageCodegenExec$$anon$1.hasNext(WholeStageCodegenExec.scala:760)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.SparkPlan.$anonfun$getByteArrayRdd$1(SparkPlan.scala:364)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2(RDD.scala:890)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2$adapted(RDD.scala:890)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:52)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:365)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.RDD.iterator(RDD.scala:329)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:90)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.scheduler.Task.run(Task.scala:136)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:548)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1504)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:551)[0m
+[0m[[0m[31merror[0m] [0m[0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)[0m
+[0m[[0m[31merror[0m] [0m[0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)[0m
+[0m[[0m[31merror[0m] [0m[0m	at java.base/java.lang.Thread.run(Thread.java:829)[0m
+[0m[[0m[31merror[0m] [0m[0mCaused by: java.lang.RuntimeException: java.lang.Integer is not a valid external type for schema of double[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.expressions.GeneratedClass$SpecificUnsafeProjection.If_0$(Unknown Source)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.expressions.GeneratedClass$SpecificUnsafeProjection.apply(Unknown Source)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.encoders.ExpressionEncoder$Serializer.apply(ExpressionEncoder.scala:207)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.encoders.ExpressionEncoder$Serializer.apply(ExpressionEncoder.scala:193)[0m
+[0m[[0m[31merror[0m] [0m[0m	at scala.collection.Iterator$$anon$9.next(Iterator.scala:577)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIteratorForCodegenStage1.processNext(Unknown Source)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.WholeStageCodegenExec$$anon$1.hasNext(WholeStageCodegenExec.scala:760)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.SparkPlan.$anonfun$getByteArrayRdd$1(SparkPlan.scala:364)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2(RDD.scala:890)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2$adapted(RDD.scala:890)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:52)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:365)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.RDD.iterator(RDD.scala:329)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:90)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.scheduler.Task.run(Task.scala:136)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:548)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1504)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:551)[0m
+[0m[[0m[31merror[0m] [0m[0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)[0m
+[0m[[0m[31merror[0m] [0m[0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)[0m
+[0m[[0m[31merror[0m] [0m[0m	at java.base/java.lang.Thread.run(Thread.java:829)[0m
+[0m[[0m[31merror[0m] [0m[0m(Compile / [31mrun[0m) org.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 0.0 failed 1 times, most recent failure: Lost task 0.0 in stage 0.0 (TID 0) (LAPTOP-4LJKQ855 executor driver): java.lang.RuntimeException: Error while encoding: java.lang.RuntimeException: java.lang.Integer is not a valid external type for schema of double[0m
+[0m[[0m[31merror[0m] [0m[0mif (assertnotnull(input[0, org.apache.spark.sql.Row, true]).isNullAt) null else validateexternaltype(getexternalrowfield(assertnotnull(input[0, org.apache.spark.sql.Row, true]), 0, 1), DoubleType, false) AS 1#0[0m
+[0m[[0m[31merror[0m] [0m[0mif (assertnotnull(input[0, org.apache.spark.sql.Row, true]).isNullAt) null else validateexternaltype(getexternalrowfield(assertnotnull(input[0, org.apache.spark.sql.Row, true]), 1, 2), DoubleType, false) AS 2#1[0m
+[0m[[0m[31merror[0m] [0m[0mif (assertnotnull(input[0, org.apache.spark.sql.Row, true]).isNullAt) null else validateexternaltype(getexternalrowfield(assertnotnull(input[0, org.apache.spark.sql.Row, true]), 2, 3), DoubleType, false) AS 3#2[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.errors.QueryExecutionErrors$.expressionEncodingError(QueryExecutionErrors.scala:1237)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.encoders.ExpressionEncoder$Serializer.apply(ExpressionEncoder.scala:210)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.encoders.ExpressionEncoder$Serializer.apply(ExpressionEncoder.scala:193)[0m
+[0m[[0m[31merror[0m] [0m[0m	at scala.collection.Iterator$$anon$9.next(Iterator.scala:577)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIteratorForCodegenStage1.processNext(Unknown Source)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.WholeStageCodegenExec$$anon$1.hasNext(WholeStageCodegenExec.scala:760)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.execution.SparkPlan.$anonfun$getByteArrayRdd$1(SparkPlan.scala:364)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2(RDD.scala:890)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2$adapted(RDD.scala:890)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:52)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:365)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.rdd.RDD.iterator(RDD.scala:329)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:90)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.scheduler.Task.run(Task.scala:136)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:548)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1504)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:551)[0m
+[0m[[0m[31merror[0m] [0m[0m	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)[0m
+[0m[[0m[31merror[0m] [0m[0m	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)[0m
+[0m[[0m[31merror[0m] [0m[0m	at java.base/java.lang.Thread.run(Thread.java:829)[0m
+[0m[[0m[31merror[0m] [0m[0mCaused by: java.lang.RuntimeException: java.lang.Integer is not a valid external type for schema of double[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.expressions.GeneratedClass$SpecificUnsafeProjection.If_0$(Unknown Source)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.expressions.GeneratedClass$SpecificUnsafeProjection.apply(Unknown Source)[0m
+[0m[[0m[31merror[0m] [0m[0m	at org.apache.spark.sql.catalyst.encoders.ExpressionEncoder$Serializer.apply(ExpressionEncoder.scala:207)[0m
+[0m[[0m[31merror[0m] [0m[0m	... 19 more[0m
+[0m[[0m[31merror[0m] [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0mDriver stacktrace:[0m

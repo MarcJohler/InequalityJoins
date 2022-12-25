@@ -3017,3 +3017,666 @@ Caused by: java.lang.NullPointerException
 2022.12.25 01:04:32 INFO  time: compiled scala in 0.55s
 2022.12.25 01:05:00 INFO  compiling scala (1 scala source)
 2022.12.25 01:05:00 INFO  time: compiled scala in 0.53s
+2022.12.25 01:11:37 INFO  shutting down Metals
+2022.12.25 01:11:37 INFO  Shut down connection with build server.
+2022.12.25 01:11:37 INFO  Shut down connection with build server.
+2022.12.25 09:41:30 INFO  tracing is disabled for protocol LSP, to enable tracing of incoming and outgoing JSON messages create an empty file at c:\Users\xZoCk\InequalityJoins\src\scala\.metals\lsp.trace.json or C:\Users\xZoCk\AppData\Local\scalameta\metals\cache\lsp.trace.json
+2022.12.25 09:41:31 INFO  logging to file C:\Users\xZoCk\InequalityJoins\src\scala\.metals\metals.log
+2022.12.25 09:41:31 INFO  Started: Metals version 0.11.9 in workspace 'C:\Users\xZoCk\InequalityJoins\src\scala' for client Visual Studio Code 1.74.2.
+2022.12.25 09:41:34 INFO  time: initialize in 2.95s
+2022.12.25 09:41:36 INFO  Attempting to connect to the build server...
+2022.12.25 09:41:36 INFO  Bloop uses C:\Program Files\Microsoft\jdk-11.0.12.7-hotspot defined at C:\Users\xZoCk\.bloop\bloop.json
+2022.12.25 09:41:36 INFO  skipping build import with status 'Installed'
+2022.12.25 09:41:41 INFO  no build target found for C:\Users\xZoCk\InequalityJoins\src\scala\src\main\scala\Join_classes.scala. Using presentation compiler with project's scala-library version: 3.2.0
+2022.12.25 09:41:45 INFO  time: code lens generation in 8.35s
+2022.12.25 09:41:45 INFO  time: code lens generation in 3.24s
+2022.12.25 09:41:47 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\xZoCk\InequalityJoins\src\scala\.metals\bsp.trace.json or C:\Users\xZoCk\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.12.25 09:41:47 INFO  Attempting to connect to the build server...
+2022.12.25 09:41:47 INFO  Bloop uses C:\Program Files\Microsoft\jdk-11.0.12.7-hotspot defined at C:\Users\xZoCk\.bloop\bloop.json
+2022.12.25 09:41:47 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\xZoCk\InequalityJoins\src\scala\project\.metals\bsp.trace.json or C:\Users\xZoCk\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2022.12.25 09:41:47 INFO  time: Connected to build server in 11s
+2022.12.25 09:41:47 INFO  Connected to Build server: Bloop v1.5.4
+2022.12.25 09:41:47 INFO  time: Imported build in 0.36s
+2022.12.25 09:42:02 INFO  time: indexed workspace in 14s
+something's wrong: no file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala in List[<error>]RangePosition(file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala, 124, 124, 138)
+something's wrong: no file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala in List[<error>]RangePosition(file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala, 124, 124, 131)
+something's wrong: no file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala in List[<error>]RangePosition(file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala, 124, 124, 132)
+something's wrong: no file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala in List[<error>]RangePosition(file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala, 124, 124, 133)
+something's wrong: no file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala in List[<error>]RangePosition(file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala, 124, 124, 134)
+Dez. 25, 2022 9:55:38 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNUNG: Unmatched cancel notification for request id 315
+something's wrong: no file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala in List[<error>]RangePosition(file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala, 124, 124, 133)
+something's wrong: no file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala in List[<error>]RangePosition(file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala, 124, 124, 132)
+something's wrong: no file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala in List[<error>]RangePosition(file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala, 124, 124, 133)
+something's wrong: no file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala in List[<error>]RangePosition(file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala, 124, 124, 136)
+something's wrong: no file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala in List[<error>]RangePosition(file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala, 124, 124, 137)
+something's wrong: no file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala in Numeric[<error>]RangePosition(file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala, 129, 129, 146)
+Dez. 25, 2022 10:00:23 VORM. scala.meta.internal.pc.CompletionProvider expected$1
+WARNUNG: null
+2022.12.25 10:00:58 INFO  compiling scala (1 scala source)
+2022.12.25 10:01:00 INFO  time: compiled scala in 2.16s
+2022.12.25 10:09:15 INFO  compiling scala (1 scala source)
+2022.12.25 10:09:15 INFO  time: compiled scala in 0.67s
+2022.12.25 10:11:53 INFO  compiling scala (1 scala source)
+2022.12.25 10:11:53 INFO  time: compiled scala in 0.9s
+2022.12.25 10:12:46 INFO  time: code lens generation in 3.97s
+2022.12.25 10:13:08 INFO  compiling scala (1 scala source)
+2022.12.25 10:13:08 INFO  time: compiled scala in 0.43s
+2022.12.25 10:13:39 INFO  compiling scala (1 scala source)
+2022.12.25 10:13:43 INFO  time: compiled scala in 3.26s
+Dez. 25, 2022 10:17:54 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNUNG: Unmatched cancel notification for request id 1390
+2022.12.25 10:19:42 INFO  compiling scala (1 scala source)
+2022.12.25 10:19:42 INFO  time: compiled scala in 0.34s
+Dez. 25, 2022 10:19:49 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNUNG: Unmatched cancel notification for request id 1604
+2022.12.25 10:19:51 INFO  compiling scala (1 scala source)
+2022.12.25 10:19:53 INFO  time: compiled scala in 1.98s
+2022.12.25 10:20:18 INFO  compiling scala (1 scala source)
+2022.12.25 10:20:20 INFO  time: compiled scala in 1.61s
+Dez. 25, 2022 10:20:39 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNUNG: Unmatched cancel notification for request id 1666
+2022.12.25 10:20:43 INFO  compiling scala (1 scala source)
+2022.12.25 10:20:44 INFO  time: compiled scala in 1.31s
+2022.12.25 10:21:15 INFO  compiling scala (1 scala source)
+2022.12.25 10:21:16 INFO  time: compiled scala in 1.35s
+Dez. 25, 2022 10:27:32 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNUNG: Unmatched cancel notification for request id 1745
+2022.12.25 10:28:11 INFO  compiling scala (1 scala source)
+2022.12.25 10:28:11 INFO  time: compiled scala in 0.28s
+Dez. 25, 2022 10:33:03 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+	at scala.collection.immutable.List.flatMap(List.scala:293)
+	at scala.collection.immutable.List.flatMap(List.scala:79)
+	at scala.meta.internal.metals.codeactions.ImportMissingSymbol.joinActionEdits$1(ImportMissingSymbol.scala:39)
+	at scala.meta.internal.metals.codeactions.ImportMissingSymbol.$anonfun$contribute$18(ImportMissingSymbol.scala:135)
+	at scala.collection.StrictOptimizedIterableOps.map(StrictOptimizedIterableOps.scala:100)
+	at scala.collection.StrictOptimizedIterableOps.map$(StrictOptimizedIterableOps.scala:87)
+	at scala.collection.immutable.HashMap.map(HashMap.scala:39)
+	at scala.meta.internal.metals.codeactions.ImportMissingSymbol.$anonfun$contribute$16(ImportMissingSymbol.scala:131)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:467)
+	... 3 more
+
+Dez. 25, 2022 10:33:04 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+	at scala.collection.immutable.List.flatMap(List.scala:293)
+	at scala.collection.immutable.List.flatMap(List.scala:79)
+	at scala.meta.internal.metals.codeactions.ImportMissingSymbol.joinActionEdits$1(ImportMissingSymbol.scala:39)
+	at scala.meta.internal.metals.codeactions.ImportMissingSymbol.$anonfun$contribute$18(ImportMissingSymbol.scala:135)
+	at scala.collection.StrictOptimizedIterableOps.map(StrictOptimizedIterableOps.scala:100)
+	at scala.collection.StrictOptimizedIterableOps.map$(StrictOptimizedIterableOps.scala:87)
+	at scala.collection.immutable.HashMap.map(HashMap.scala:39)
+	at scala.meta.internal.metals.codeactions.ImportMissingSymbol.$anonfun$contribute$16(ImportMissingSymbol.scala:131)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:467)
+	... 3 more
+
+Dez. 25, 2022 10:33:05 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+	at scala.collection.immutable.List.flatMap(List.scala:293)
+	at scala.collection.immutable.List.flatMap(List.scala:79)
+	at scala.meta.internal.metals.codeactions.ImportMissingSymbol.joinActionEdits$1(ImportMissingSymbol.scala:39)
+	at scala.meta.internal.metals.codeactions.ImportMissingSymbol.$anonfun$contribute$18(ImportMissingSymbol.scala:135)
+	at scala.collection.StrictOptimizedIterableOps.map(StrictOptimizedIterableOps.scala:100)
+	at scala.collection.StrictOptimizedIterableOps.map$(StrictOptimizedIterableOps.scala:87)
+	at scala.collection.immutable.HashMap.map(HashMap.scala:39)
+	at scala.meta.internal.metals.codeactions.ImportMissingSymbol.$anonfun$contribute$16(ImportMissingSymbol.scala:131)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:467)
+	... 3 more
+
+Dez. 25, 2022 10:33:10 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 10:33:10 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+2022.12.25 10:33:13 INFO  compiling scala (1 scala source)
+2022.12.25 10:33:13 INFO  time: compiled scala in 0.54s
+2022.12.25 10:33:17 INFO  compiling scala (1 scala source)
+2022.12.25 10:33:17 INFO  time: compiled scala in 0.28s
+2022.12.25 10:35:26 INFO  compiling scala (1 scala source)
+2022.12.25 10:35:27 INFO  time: compiled scala in 1.38s
+Dez. 25, 2022 10:36:07 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNUNG: Unmatched cancel notification for request id 2126
+Dez. 25, 2022 10:36:07 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNUNG: Unmatched cancel notification for request id 2127
+2022.12.25 10:36:22 INFO  compiling scala (1 scala source)
+2022.12.25 10:36:22 INFO  time: compiled scala in 0.22s
+2022.12.25 10:36:37 INFO  compiling scala (1 scala source)
+2022.12.25 10:36:38 INFO  time: compiled scala in 1.15s
+2022.12.25 10:38:29 INFO  compiling scala (1 scala source)
+2022.12.25 10:38:30 INFO  time: compiled scala in 1.08s
+Dez. 25, 2022 10:38:49 VORM. scala.meta.internal.pc.CompletionProvider expected$1
+WARNUNG: offset 752, count -1, length 993
+Dez. 25, 2022 10:38:53 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNUNG: Unmatched cancel notification for request id 2267
+2022.12.25 10:38:59 INFO  compiling scala (1 scala source)
+2022.12.25 10:38:59 INFO  time: compiled scala in 0.26s
+2022.12.25 10:39:31 INFO  compiling scala (1 scala source)
+2022.12.25 10:39:31 INFO  time: compiled scala in 0.19s
+2022.12.25 10:39:58 INFO  compiling scala (1 scala source)
+2022.12.25 10:39:58 INFO  time: compiled scala in 0.18s
+something's wrong: no file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala in List[<error>]RangePosition(file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala, 956, 956, 970)
+something's wrong: no file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala in List[<error>]RangePosition(file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala, 956, 956, 963)
+something's wrong: no file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala in List[<error>]RangePosition(file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala, 956, 956, 964)
+something's wrong: no file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala in List[Int]RangePosition(file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala, 956, 956, 965)
+2022.12.25 10:40:07 INFO  compiling scala (1 scala source)
+2022.12.25 10:40:07 INFO  time: compiled scala in 0.23s
+2022.12.25 10:40:16 INFO  compiling scala (1 scala source)
+2022.12.25 10:40:16 INFO  time: compiled scala in 0.18s
+2022.12.25 10:40:19 INFO  compiling scala (1 scala source)
+2022.12.25 10:40:19 INFO  time: compiled scala in 0.2s
+Dez. 25, 2022 10:40:41 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNUNG: Unmatched cancel notification for request id 2498
+Dez. 25, 2022 10:40:41 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNUNG: Unmatched cancel notification for request id 2499
+something's wrong: no file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala in org.apache.spark.rdd.RDD[List[Int]]RangePosition(file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala, 956, 977, 990)
+2022.12.25 10:40:46 INFO  compiling scala (1 scala source)
+2022.12.25 10:40:46 INFO  time: compiled scala in 0.98s
+2022.12.25 10:41:00 INFO  compiling scala (1 scala source)
+2022.12.25 10:41:00 INFO  time: compiled scala in 0.97s
+2022.12.25 10:41:11 INFO  compiling scala (1 scala source)
+2022.12.25 10:41:11 INFO  time: compiled scala in 0.81s
+Dez. 25, 2022 10:44:16 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNUNG: Unmatched cancel notification for request id 2646
+2022.12.25 10:45:03 INFO  compiling scala (1 scala source)
+2022.12.25 10:45:03 INFO  time: compiled scala in 0.22s
+2022.12.25 10:45:31 INFO  compiling scala (1 scala source)
+2022.12.25 10:45:31 INFO  time: compiled scala in 0.22s
+2022.12.25 10:45:38 INFO  compiling scala (1 scala source)
+2022.12.25 10:45:38 INFO  time: compiled scala in 0.19s
+2022.12.25 10:46:07 INFO  compiling scala (1 scala source)
+2022.12.25 10:46:07 INFO  time: compiled scala in 0.17s
+2022.12.25 10:48:15 INFO  compiling scala (1 scala source)
+2022.12.25 10:48:15 INFO  time: compiled scala in 0.27s
+2022.12.25 10:48:58 INFO  compiling scala (1 scala source)
+2022.12.25 10:48:58 INFO  time: compiled scala in 0.23s
+Dez. 25, 2022 10:49:03 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNUNG: Unmatched cancel notification for request id 3080
+Dez. 25, 2022 10:49:33 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNUNG: Unmatched cancel notification for request id 3161
+2022.12.25 10:49:52 INFO  compiling scala (1 scala source)
+2022.12.25 10:49:52 INFO  time: compiled scala in 0.23s
+Dez. 25, 2022 10:49:55 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 10:49:56 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 10:49:58 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 10:49:59 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 10:49:59 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 10:52:05 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNUNG: Unmatched cancel notification for request id 3253
+2022.12.25 10:52:42 INFO  compiling scala (1 scala source)
+2022.12.25 10:52:42 INFO  time: compiled scala in 0.22s
+2022.12.25 10:53:06 INFO  compiling scala (1 scala source)
+2022.12.25 10:53:06 INFO  time: compiled scala in 0.25s
+Dez. 25, 2022 10:53:46 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNUNG: Unmatched cancel notification for request id 3408
+2022.12.25 10:53:47 INFO  compiling scala (1 scala source)
+2022.12.25 10:53:47 INFO  time: compiled scala in 0.26s
+2022.12.25 10:54:42 INFO  compiling scala (1 scala source)
+2022.12.25 10:54:42 WARN  1 deprecation (since 2.13.3); re-run with -deprecation for details
+2022.12.25 10:54:43 INFO  time: compiled scala in 1.05s
+2022.12.25 10:56:43 INFO  compiling scala (1 scala source)
+2022.12.25 10:56:43 INFO  time: compiled scala in 0.22s
+2022.12.25 10:56:57 INFO  file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala:19:21: stale bloop error: type arguments ["Int::Int::HNil"] do not conform to method toHList's type parameter bounds [L <: shapeless.HList]
+  def randomEntry = List.fill(predicate_len)(randomInt1to100).toHList["Int::Int::HNil"].get.tupled
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2022.12.25 10:56:57 INFO  file:///C:/Users/xZoCk/InequalityJoins/src/scala/src/main/scala/Main.scala:19:21: stale bloop error: type arguments ["Int::Int::HNil"] do not conform to method toHList's type parameter bounds [L <: shapeless.HList]
+  def randomEntry = List.fill(predicate_len)(randomInt1to100).toHList["Int::Int::HNil"].get.tupled
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2022.12.25 10:57:08 INFO  compiling scala (1 scala source)
+2022.12.25 10:57:08 WARN  1 deprecation (since 2.13.3); re-run with -deprecation for details
+2022.12.25 10:57:09 INFO  time: compiled scala in 1.07s
+Dez. 25, 2022 11:08:25 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNUNG: Unmatched cancel notification for request id 3577
+Exception in thread "pool-5-thread-1" java.lang.InterruptedException
+	at scala.meta.internal.metals.FutureCancelToken.checkCanceled(FutureCancelToken.scala:29)
+	at scala.meta.internal.pc.CompilerAccess.$anonfun$onCompilerJobQueue$1(CompilerAccess.scala:195)
+	at scala.meta.internal.pc.CompilerJobQueue$Job.run(CompilerJobQueue.scala:152)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2022.12.25 11:10:02 INFO  compiling scala (1 scala source)
+2022.12.25 11:10:02 INFO  time: compiled scala in 0.25s
+2022.12.25 11:10:11 INFO  compiling scala (1 scala source)
+2022.12.25 11:10:11 INFO  time: compiled scala in 0.24s
+2022.12.25 11:10:33 INFO  compiling scala (1 scala source)
+2022.12.25 11:10:33 INFO  time: compiled scala in 0.19s
+2022.12.25 11:12:25 INFO  compiling scala (1 scala source)
+2022.12.25 11:12:25 INFO  time: compiled scala in 0.2s
+Dez. 25, 2022 11:13:19 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNUNG: Unmatched cancel notification for request id 4179
+2022.12.25 11:13:23 INFO  compiling scala (1 scala source)
+2022.12.25 11:13:23 INFO  time: compiled scala in 0.19s
+2022.12.25 11:13:39 INFO  compiling scala (1 scala source)
+2022.12.25 11:13:39 INFO  time: compiled scala in 0.21s
+2022.12.25 11:13:49 INFO  compiling scala (1 scala source)
+2022.12.25 11:13:49 INFO  time: compiled scala in 0.88s
+2022.12.25 11:14:31 INFO  compiling scala (1 scala source)
+2022.12.25 11:14:31 INFO  time: compiled scala in 0.19s
+2022.12.25 11:14:41 INFO  compiling scala (1 scala source)
+2022.12.25 11:14:41 INFO  time: compiled scala in 0.2s
+2022.12.25 11:15:21 INFO  compiling scala (1 scala source)
+2022.12.25 11:15:22 INFO  time: compiled scala in 1.07s
+2022.12.25 11:15:32 INFO  compiling scala (1 scala source)
+2022.12.25 11:15:32 INFO  time: compiled scala in 0.92s
+2022.12.25 11:16:20 INFO  compiling scala (1 scala source)
+2022.12.25 11:16:20 INFO  time: compiled scala in 0.18s
+Dez. 25, 2022 11:16:22 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 11:16:24 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+2022.12.25 11:16:26 INFO  compiling scala (1 scala source)
+2022.12.25 11:16:26 INFO  time: compiled scala in 0.19s
+Dez. 25, 2022 11:16:28 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 11:16:28 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 11:17:05 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 11:17:05 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 11:17:07 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+2022.12.25 11:17:12 INFO  compiling scala (1 scala source)
+2022.12.25 11:17:12 INFO  time: compiled scala in 0.23s
+Dez. 25, 2022 11:17:14 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 11:17:15 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 11:17:16 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 11:17:17 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 11:17:18 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 11:17:18 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 11:17:19 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 11:17:20 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 11:17:20 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+Dez. 25, 2022 11:17:22 VORM. org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SCHWERWIEGEND: Internal error: java.lang.NullPointerException
+java.util.concurrent.CompletionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:331)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:346)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:704)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)
+	at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2088)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1(CancelTokens.scala:40)
+	at scala.meta.internal.metals.CancelTokens$.$anonfun$future$1$adapted(CancelTokens.scala:38)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:484)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.NullPointerException
+
+2022.12.25 11:17:23 INFO  compiling scala (1 scala source)
+2022.12.25 11:17:23 INFO  time: compiled scala in 0.22s
+2022.12.25 11:17:53 INFO  compiling scala (1 scala source)
+2022.12.25 11:17:53 INFO  time: compiled scala in 0.86s
