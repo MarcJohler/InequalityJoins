@@ -1,0 +1,24 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(__runWatch console0, Some(bb3715b7-9f10-47cb-a395-254b2f1104ff), Some(CommandSource(console0)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(sbtStashOnFailure, None, Some(CommandSource(console0)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(__preWatch console0, None, Some(CommandSource(console0)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(run, None, Some(CommandSource(console0)))[0m
+[0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: Compile / run[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 2 Scala sources to C:\Users\xZoCk\InequalityJoins\src\scala\target\scala-2.13\classes ...[0m
+[0m[[0m[31merror[0m] [0m[0mC:\Users\xZoCk\InequalityJoins\src\scala\src\main\scala\Classes.scala:11:5: 'while' expected but 'return' found.[0m
+[0m[[0m[31merror[0m] [0m[0m    return output[0m
+[0m[[0m[31merror[0m] [0m[0m    ^[0m
+[0m[[0m[31merror[0m] [0m[0mC:\Users\xZoCk\InequalityJoins\src\scala\src\main\scala\Classes.scala:12:3: '(' expected but '}' found.[0m
+[0m[[0m[31merror[0m] [0m[0m  }[0m
+[0m[[0m[31merror[0m] [0m[0m  ^[0m
+[0m[[0m[31merror[0m] [0m[0mC:\Users\xZoCk\InequalityJoins\src\scala\src\main\scala\Main.scala:6:7: expected start of definition[0m
+[0m[[0m[31merror[0m] [0m[0m      println( "Returned Value : " + addInt(5,7) );[0m
+[0m[[0m[31merror[0m] [0m[0m      ^[0m
+[0m[[0m[31merror[0m] [0m[0mthree errors found[0m
+[0m[[0m[31merror[0m] [0m[0m(Compile / [31mcompileIncremental[0m) Compilation failed[0m
+[0m[[0m[31merror[0m] [0m[0mTotal time: 0 s, completed 24.12.2022, 17:01:59[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(resumeFromFailure, None, Some(CommandSource(console0)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(sbtPopOnFailure, None, Some(CommandSource(console0)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(__postWatch console0, None, Some(CommandSource(console0)))[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(resumeFromFailure, None, None)[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(__waitWatch console0, None, None)[0m
