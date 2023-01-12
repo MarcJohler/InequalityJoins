@@ -274,7 +274,7 @@ def naive_selfjoin(R, r, op):
     finished = False
     result = []
     for i in range(len(R)):
-        for j in range(max(i + 1, checkpoint), len(R)):
+        for j in range(checkpoint, len(R)):
             if op(r_sorted[i], r_sorted[j]):
                 result.append(pairs([rid[rid.index[i]]], list(rid[j:])))
                 checkpoint = j
@@ -282,9 +282,9 @@ def naive_selfjoin(R, r, op):
             elif j == len(R) - 1:
                 finished = True
         # also go backwards for the case of duplicates
-        for j in range(max(i - 1, 0), 0):
+        for j in reversed(range(i)):
             if op(r_sorted[i], r_sorted[j]):
-                result.append(pairs([rid[rid.index[i]]], [rid[j]]))
+                result.append(pairs([rid[rid.index[i]]], [rid[rid.index[j]]]))
             else:
                 break
         # avoid worst case by checking if end of relation has been reached
