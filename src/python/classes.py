@@ -262,6 +262,51 @@ def jvec_ineqjoin_multicond(R, S, r, s, op):
     result = intersect_pairs(results, res_lengths)
     return result
 
+def naive_selfjoin(R, r, op):
+    r_sorted = np.sort(R[r])
+    rid = np.argsort(R[r])
+    if op in [operator.gt, operator.ge]:
+        r_sorted = r_sorted[::-1]
+        rid = rid[::-1]
+    
+    checkpoint = 0
+    finished = False
+    result = []
+    for i in range(len(R)):
+        for j in range(max(i + 1, checkpoint), len(R)):
+            if op(r_sorted[i], r_sorted[j]):
+                result.append(pairs([rid[rid.index[i]]], list(rid[j:])))
+                checkpoint = j
+                break
+            elif j == len(R) - 1:
+                finished = True
+        # also go backwards for the case of duplicates
+        for j in range(max(i - 1, 0), 0):
+            if op(r_sorted[i], r_sorted[j]):
+                result.append(pairs([rid[rid.index[i]]], [rid[j]]))
+            else:
+                break
+        # avoid worst case by checking if end of relation has been reached
+        if finished:
+            break
+    
+    result = [item for sublist in result for item in sublist]
+    return result, len(result)
+        
+def naive_selfjoin_multicond(R, r, op):
+    # check if the arguments are consistent
+    condition_len = len(op)
+    assert len(r) == condition_len
+    # for each join condition check the valid tuples
+    results = np.repeat(None, condition_len)
+    res_lengths = np.repeat(0, condition_len)
+    for i in range(condition_len):
+        results[i], res_lengths[i] = naive_selfjoin(R, r[i], op[i])
+    # only consider tuples which fulfill every join condition
+    result = intersect_pairs(results, res_lengths)
+    return result
+    
+
 # computes the permutation array for the IE Join
 def compute_permutation_array(arr1, arr2):
     assert len(arr1) == len(arr2)
@@ -436,7 +481,7 @@ def IE_join(R, S, r, s, op):
     result = []
     
     # start the join process
-    for i in range(len(R0)):
+    for i in range(len(R1)):
         # save the tuple for later usage
         r1_i_id = R1.index[i]
         r1_i_tup = R1.loc[r1_i_id]
@@ -458,6 +503,45 @@ def IE_join(R, S, r, s, op):
                 if op[0](r1_i_tup[r[0]], s0_k_tup[s[0]]) and op[1](r1_i_tup[r[1]], s0_k_tup[s[1]]):
                     result.append((r1_i_id, s0_k_id))
     
+    return result
+
+def IE_self_join(R, r, op, origin = None, ignore_origin = True):
+    # check if there are two join predicates
+    assert len(op) == 2
+    assert len(r) == 2
+    # find out the necessary order
+    if op[0] in [operator.gt, operator.ge] and op[1] in [operator.gt, operator.ge]:
+        ascending0 = [False, False]
+        ascending1 = [True, True]
+    elif op[0] in [operator.lt, operator.le] and op[1] in [operator.gt, operator.ge]:
+        ascending0 = [True, False]
+        ascending1 = [True, False]
+    elif op[0] in [operator.gt, operator.ge] and op[1] in [operator.lt, operator.le]:
+        ascending0 = [False, True]
+        ascending1 = [False, True]
+    elif op[0] in [operator.lt, operator.le] and op[1] in [operator.lt, operator.le]:
+        ascending0 = [True, True]
+        ascending1 = [False, False]
+        
+    # apply the order to the relations accordingly
+    R0 = R.sort_values(by = r, ascending = ascending0)
+    R1 = R.sort_values(by = r[::-1], ascending = ascending1)
+    # compute the permutation arrays
+    p_r = compute_permutation_array(R0.index, R1.index)
+    B = np.zeros(len(R0))
+    result = []
+    for i in range(len(R1)):
+        # save the tuple for later usage
+        pos = p_r[i]
+        for j in range(pos + 1, len(R0)):
+            r0_j_id = R0.index[j]
+            r1_i_id = R1.index[i]
+            if B[j] == 1 and (ignore_origin or origin[r0_j_id] != origin[r1_i_id]):
+                r0_j_tup = R0.loc[r0_j_id]
+                r1_i_tup = R1.loc[r1_i_id]
+                if op[0](r1_i_tup[r[0]], r0_j_tup[r[0]]) and op[1](r1_i_tup[r[1]], r0_j_tup[r[1]]):
+                    result.append((r1_i_id, r0_j_id))
+        B[pos] = 1
     return result
 
 def nested_loop_ineqjoin(R, S, r, s, op):
