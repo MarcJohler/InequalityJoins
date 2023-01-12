@@ -6,6 +6,7 @@ Created on Tue Dec 20 00:47:57 2022
 """
 import numpy as np
 import operator
+import pandas as pd
 
 # computes all pairs of the values of two arrays
 def pairs(arr1, arr2):
@@ -370,31 +371,45 @@ def val_pos_in_rel(new_val, relation, relation_idx, positions,
 
 # compute the position of a tuple in a relation
 def tuple_pos_in_rel(new_tuple, relation, tuple_var, relation_var, 
-                     relation_idx, positions, ascending):
+                     relation_idx, positions, ascending, earliest):
     new_val0 = new_tuple[tuple_var[0]]
     new_val1 = new_tuple[tuple_var[1]]
     
     # define the right operators
-    if ascending[0]:
+    # distinguish between different order and wheter we want to return the first or last position (in case of duplicates)
+    if ascending[0] and earliest:
         op0prev = operator.ge
         op0nex = operator.lt
-    else:
+    elif earliest:
         op0prev = operator.le
         op0nex = operator.gt
+    elif ascending[0]:
+        op0prev = operator.gt
+        op0nex = operator.le
+    else:
+        op0prev = operator.lt
+        op0nex = operator.ge
     
     relation_idx, positions, position_found = val_pos_in_rel(new_val0, relation, relation_idx, positions, 
                                                              relation_var[0], op0prev, op0nex, return_first = False)
     
-    # if the position could be identified return it
+    # if the position could be identified by only considering one variable return it
     if position_found is not None:
         return position_found
     
-    if ascending[1]:
+    # otherwise sort according to the second variable
+    if ascending[1] and earliest:
         op1prev = operator.ge
         op1nex = operator.lt
-    else:
+    elif earliest:
         op1prev = operator.le
         op1nex = operator.gt   
+    elif ascending[1]:
+        op1prev = operator.gt
+        op1nex = operator.le
+    else:
+        op1prev = operator.lt
+        op1nex = operator.ge
         
     position = val_pos_in_rel(new_val1, relation, relation_idx, positions, 
                               relation_var[1], op1prev, op1nex, return_first = True)
@@ -402,7 +417,7 @@ def tuple_pos_in_rel(new_tuple, relation, tuple_var, relation_var,
     return position
 
 # compute the offset of all tuples of R in S
-def compute_offset(R, S, r, s, ascending):
+def compute_offset(R, S, r, s, ascending, earliest):
     max_position = len(S)
     offsets_len = len(R)
     offsets = np.repeat(0, offsets_len)
@@ -412,7 +427,7 @@ def compute_offset(R, S, r, s, ascending):
     positions_current = [i for i in range(offsets_len)]
     for i in range(offsets_len):
         position = tuple_pos_in_rel(R.loc[R.index[i]], S, r, s, 
-                                    S_indices_current, positions_current, ascending)
+                                    S_indices_current, positions_current, ascending, earliest)
         # if maximum position is already reached, use this position for all remaining tuples
         if position == max_position:
             offsets[i:] = position
@@ -474,8 +489,8 @@ def IE_join(R, S, r, s, op):
     p_r = compute_permutation_array(R0.index, R1.index)
     p_s = compute_permutation_array(S0.index, S1.index)
     # compute the offset arrays
-    o0 = compute_offset(R0, S0, r, s, ascending0)
-    o1 = compute_offset(R1, S1, r[::-1], s[::-1], ascending1)
+    o0 = compute_offset(R0, S0, r, s, ascending0, earliest = True)
+    o1 = compute_offset(R1, S1, r[::-1], s[::-1], ascending1, earliest = False)
          
     B = np.zeros(len(S0))
     result = []
@@ -505,7 +520,7 @@ def IE_join(R, S, r, s, op):
     
     return result
 
-def IE_self_join(R, r, op, origin = None, ignore_origin = True):
+def IE_self_join(R, r, op, origin = None, index_mapping = None, ignore_origin = True):
     # check if there are two join predicates
     assert len(op) == 2
     assert len(r) == 2
@@ -530,19 +545,58 @@ def IE_self_join(R, r, op, origin = None, ignore_origin = True):
     p_r = compute_permutation_array(R0.index, R1.index)
     B = np.zeros(len(R0))
     result = []
-    for i in range(len(R1)):
-        # save the tuple for later usage
-        pos = p_r[i]
-        for j in range(pos + 1, len(R0)):
-            r0_j_id = R0.index[j]
+    
+    # slightly different loop for different usage of function
+    if ignore_origin:
+        for i in range(len(R1)):
+            # save the tuple for later usage
+            pos = p_r[i]
             r1_i_id = R1.index[i]
-            if B[j] == 1 and (ignore_origin or origin[r0_j_id] != origin[r1_i_id]):
-                r0_j_tup = R0.loc[r0_j_id]
-                r1_i_tup = R1.loc[r1_i_id]
-                if op[0](r1_i_tup[r[0]], r0_j_tup[r[0]]) and op[1](r1_i_tup[r[1]], r0_j_tup[r[1]]):
-                    result.append((r1_i_id, r0_j_id))
-        B[pos] = 1
+            r1_i_tup = R1.loc[r1_i_id]
+            for j in range(pos + 1, len(R0)):
+                r0_j_id = R0.index[j]
+                if B[j] == 1:
+                    r0_j_tup = R0.loc[r0_j_id]
+                    if op[0](r1_i_tup[r[0]], r0_j_tup[r[0]]) and op[1](r1_i_tup[r[1]], r0_j_tup[r[1]]):
+                        result.append((r1_i_id, r0_j_id))
+            B[pos] = 1
+    else:
+        for i in range(len(R1)):
+            # save the tuple for later usage
+            pos = p_r[i]
+            r1_i_id = R1.index[i]
+            r1_i_tup = R1.loc[r1_i_id]
+            original_i_index = index_mapping[r1_i_id]
+            for j in range(pos + 1, len(R0)):
+                r0_j_id = R0.index[j]
+                if B[j] == 1 and origin[r0_j_id] != origin[r1_i_id]:
+                    r0_j_tup = R0.loc[r0_j_id]
+                    if op[0](r1_i_tup[r[0]], r0_j_tup[r[0]]) and op[1](r1_i_tup[r[1]], r0_j_tup[r[1]]):
+                        original_j_index = index_mapping[r0_j_id]
+                        result.append((original_i_index, original_j_index))
+            B[pos] = 1
+    
+    
     return result
+
+def IE_pseudo_self_join(R, S, r, s, op):
+    # check if there are two join predicates
+    assert len(op) == 2
+    assert len(r) == 2
+    assert len(s) == 2
+    r0_vals = R[r[0]]
+    s0_vals = S[s[0]]
+    r1_vals = R[r[1]]
+    s1_vals = S[s[1]]
+    origin = np.concatenate([np.zeros(len(r0_vals)), np.ones(len(s0_vals))])   
+    original_idx = np.concatenate([R.index, S.index])
+    index_mapping = dict([(i, original_idx[i]) for i in range(len(origin))])
+    
+    first_column = pd.Series(np.concatenate([r0_vals, s0_vals]))
+    second_column = pd.Series(np.concatenate([r1_vals, s1_vals]))
+    combined_relation =  pd.concat([first_column, second_column], axis = 1)
+    
+    return IE_self_join(combined_relation, [0, 1], op, origin, index_mapping, False)
 
 def nested_loop_ineqjoin(R, S, r, s, op):
     # check if the arguments are consistent
