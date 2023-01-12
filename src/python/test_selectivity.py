@@ -18,9 +18,10 @@ import operator
 import time
 import matplotlib.pyplot as plt
 from classes import naive_ineqjoin_multicond, naive_ineqjoin_lowsel_multicond, ivec_ineqjoin_multicond, jvec_ineqjoin_multicond, flexible_ineqjoin_multicond
+from classes import IE_join, IE_pseudo_self_join
 
 
-test_cases = 20
+test_cases = 5
 #np.random.seed(21)
 
 selectivity = np.zeros(test_cases)
@@ -30,16 +31,18 @@ flex_time = np.zeros(test_cases)
 nl_time = np.zeros(test_cases)
 ivec_time = np.zeros(test_cases)
 jvec_time = np.zeros(test_cases)
+ie_time = np.zeros(test_cases)
+ie_ps_time = np.zeros(test_cases)
 
 for i in range(test_cases):
     predicate_len = 2
     
-    n1 = 1000
-    R = np.random.randint(np.random.randint(1, 50), size = (n1, predicate_len)) 
+    n1 = 200
+    R = np.random.randint(np.random.randint(1, 5), size = (n1, predicate_len)) 
     R = pd.DataFrame(R)
     
-    n2 = 1000
-    S = np.random.randint(np.random.randint(1, 100), size = (n2, predicate_len)) 
+    n2 = 200
+    S = np.random.randint(np.random.randint(1, 5), size = (n2, predicate_len)) 
     S = pd.DataFrame(S)
     
     #define random operators
@@ -73,7 +76,20 @@ for i in range(test_cases):
     tic_j = time.perf_counter()
     jvec_join_result = jvec_ineqjoin_multicond(R, S,  [j for j in range(predicate_len)], [j for j in range(predicate_len)], operators)
     toc_j = time.perf_counter()
-    	
+    
+    """
+    # IE approaches
+    # measure time for naive approach
+    tic_ie = time.perf_counter()
+    ie_join_result = IE_join(R, S, [j for j in range(predicate_len)], [j for j in range(predicate_len)], operators)
+    toc_ie = time.perf_counter()
+    
+    tic_ps = time.perf_counter()
+    ps_join_result = IE_pseudo_self_join(R, S,  [j for j in range(predicate_len)], [j for j in range(predicate_len)], operators)
+    toc_ps = time.perf_counter()
+    """    
+	
+    
     # check if results are correct
     #nl_join_set = set(nl_join_result)
     #lowsel_join_set = set(lowsel_join_result)
@@ -81,6 +97,12 @@ for i in range(test_cases):
     flex_join_set = set(flex_join_result)
     #ivec_join_set = set(ivec_join_result)
     jvec_join_set = set(jvec_join_result)
+    
+    """
+    ie_join_set = set(ie_join_result)
+    ps_join_set = set(ps_join_result)
+    """
+    
     
     #assert naive_join_set.issubset(lowsel_join_set)
     #assert naive_join_set.issuperset(lowsel_join_set)
@@ -92,6 +114,13 @@ for i in range(test_cases):
     #assert naive_join_set.issuperset(ivec_join_set)
     assert naive_join_set.issubset(jvec_join_set)
     assert naive_join_set.issuperset(jvec_join_set)
+    
+    """
+    assert naive_join_set.issubset(ie_join_set)
+    assert naive_join_set.issuperset(ie_join_set)
+    assert naive_join_set.issubset(ps_join_set)
+    assert naive_join_set.issuperset(ps_join_set)
+    """
     
     # save predicate_size
     selectivity[i] = len(flex_join_result) / (n1 * n2)
@@ -110,6 +139,14 @@ for i in range(test_cases):
     print("Time for jvec approach:", {toc_j - tic_j})
     jvec_time[i] = toc_j - tic_j
     
+    """
+    print("Time for ie approach:", {toc_ie - tic_ie})
+    ie_time[i] = toc_ie - tic_ie
+    
+    print("Time for pseudo self join approach:", {toc_ps - tic_ps})
+    ie_ps_time[i] = toc_ps - tic_ps
+    """
+    
 # It is clear that the naive approach performs better than IEJoin
 fig, ax = plt.subplots()
 plt.scatter(selectivity, naive_time, label = "Naive Approach")
@@ -118,6 +155,10 @@ plt.scatter(selectivity, flex_time, label = "Flexible Approach")
 #plt.scatter(selectivity, nl_time, label = "Nested Loop")
 #plt.scatter(selectivity, ivec_time, label = "ivec Approach")
 plt.scatter(selectivity, jvec_time, label = "jvec Approach")
+"""
+plt.scatter(selectivity, ie_time, label = "IEJoin")
+plt.scatter(selectivity, ie_ps_time, label = "Pseudo Self Join")
+"""
 ax.legend()
 plt.show()
 
