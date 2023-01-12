@@ -28,7 +28,7 @@ from classes import IE_self_join, naive_selfjoin_multicond
 
 
 test_cases = 20
-#np.random.seed(21)
+np.random.seed(21)
 
 selectivity = np.zeros(test_cases)
 naive_time = np.zeros(test_cases)
@@ -38,11 +38,11 @@ for i in range(test_cases):
     predicate_len = 2
     
     n = 100
-    R = np.random.randint(np.random.randint(1, 100), size = (n, predicate_len)) 
+    R = np.random.randint(np.random.randint(1, 5), size = (n, predicate_len)) 
     R = pd.DataFrame(R)
     
     #define random operators
-    operators = np.random.choice([operator.lt, operator.le, operator.ge, operator.lt], predicate_len)
+    operators = np.random.choice([operator.ge, operator.ge], predicate_len)
    
     # measur time for flexible approach
     tic_ie = time.perf_counter()
@@ -57,13 +57,11 @@ for i in range(test_cases):
     naive_join_set = set(naive_join_result)
     ie_join_set = set(ie_join_result)
     
-    try: assert naive_join_set.issubset(ie_join_set)
-    except: naive_join_result = naive_selfjoin_multicond(R, [j for j in range(predicate_len)], operators)
-    try: assert naive_join_set.issuperset(ie_join_set)
-    except: naive_join_result = naive_selfjoin_multicond(R, [j for j in range(predicate_len)], operators)
-    
     # save predicate_size
     selectivity[i] = len(naive_join_result) / (n**2)
+    
+    assert naive_join_set.issubset(ie_join_set)
+    assert naive_join_set.issuperset(ie_join_set)
     
     print("Test case", i)
     print("Time for naive approach:", {toc_n - tic_n})

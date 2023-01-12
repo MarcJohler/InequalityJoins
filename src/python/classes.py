@@ -505,15 +505,15 @@ def IE_join(R, S, r, s, op):
         r1_i_tup = R1.loc[r1_i_id]
         # check if it's the first tuple
         if i == 0:
-            start = 0
+            start_in_S1 = 0
         else:
-            start = o1[i - 1]
+            start_in_S1 = o1[i - 1]
         # fill up binary index structure
-        for j in range(start, o1[i]):
+        for j in range(start_in_S1, o1[i]):
             B[p_s[j]] = 1
         # check for pairs fulfilling the condition
-        off1 = o0[p_r[i]]
-        for k in range(off1, len(S0)):
+        start_in_S0 = o0[p_r[i]]
+        for k in range(start_in_S0, len(S0)):
             if B[k] == 1:
                 # check if constraint is fulfilled
                 s0_k_id = S0.index[k]
@@ -548,36 +548,58 @@ def IE_self_join(R, r, op, origin = None, index_mapping = None, ignore_origin = 
     p_r = compute_permutation_array(R0.index, R1.index)
     B = np.zeros(len(R0))
     result = []
+    # contrary to the paper we need offsets to make it work for duplicates
+    o0 = compute_offset(R0, R0, r, r, ascending0, earliest = True)
+    o1 = compute_offset(R1, R1, r[::-1], r[::-1], ascending1, earliest = False)
     
     # slightly different loop for different usage of function
     if ignore_origin:
         for i in range(len(R1)):
             # save the tuple for later usage
-            pos = p_r[i]
             r1_i_id = R1.index[i]
             r1_i_tup = R1.loc[r1_i_id]
-            for j in range(pos + 1, len(R0)):
-                r0_j_id = R0.index[j]
+            # check if it's the first tuple
+            if i == 0:
+                start_in_R1 = 0
+            else:
+                start_in_R1 = o1[i - 1]
+            # fill up binary index structure
+            for j in range(start_in_R1, o1[i]):
+                B[p_r[j]] = 1
+            # check for matching 
+            # check for pairs fulfilling the condition
+            start_in_R0 = o0[p_r[i]]
+            for j in range(start_in_R0, len(R0)):
                 if B[j] == 1:
+                    r0_j_id = R0.index[j]
                     r0_j_tup = R0.loc[r0_j_id]
                     if op[0](r1_i_tup[r[0]], r0_j_tup[r[0]]) and op[1](r1_i_tup[r[1]], r0_j_tup[r[1]]):
                         result.append((r1_i_id, r0_j_id))
-            B[pos] = 1
+
     else:
         for i in range(len(R1)):
             # save the tuple for later usage
-            pos = p_r[i]
             r1_i_id = R1.index[i]
             r1_i_tup = R1.loc[r1_i_id]
             original_i_index = index_mapping[r1_i_id]
-            for j in range(pos + 1, len(R0)):
+            # check if it's the first tuple
+            if i == 0:
+                start_in_R1 = 0
+            else:
+                start_in_R1 = o1[i - 1]
+            # fill up binary index structure
+            for j in range(start_in_R1, o1[i]):
+                B[p_r[j]] = 1
+            # check for matching 
+            # check for pairs fulfilling the condition
+            start_in_R0 = o0[p_r[i]]
+            for j in range(start_in_R0, len(R0)):
                 r0_j_id = R0.index[j]
                 if B[j] == 1 and origin[r0_j_id] != origin[r1_i_id]:
                     r0_j_tup = R0.loc[r0_j_id]
                     if op[0](r1_i_tup[r[0]], r0_j_tup[r[0]]) and op[1](r1_i_tup[r[1]], r0_j_tup[r[1]]):
                         original_j_index = index_mapping[r0_j_id]
                         result.append((original_i_index, original_j_index))
-            B[pos] = 1
     
     
     return result
