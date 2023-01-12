@@ -422,12 +422,15 @@ def compute_offset(R, S, r, s, ascending, earliest):
     offsets_len = len(R)
     offsets = np.repeat(0, offsets_len)
     S_indices_complete = S.index
-    positions_complete = [i for i in range(offsets_len)]
+    positions_complete = [i for i in range(max_position)]
     S_indices_current = S.index
-    positions_current = [i for i in range(offsets_len)]
+    positions_current = [i for i in range(max_position)]
     for i in range(offsets_len):
-        position = tuple_pos_in_rel(R.loc[R.index[i]], S, r, s, 
+        try: position = tuple_pos_in_rel(R.loc[R.index[i]], S, r, s, 
                                     S_indices_current, positions_current, ascending, earliest)
+        except: position = tuple_pos_in_rel(R.loc[R.index[i]], S, r, s, 
+                                    S_indices_current, positions_current, ascending, earliest)
+            
         # if maximum position is already reached, use this position for all remaining tuples
         if position == max_position:
             offsets[i:] = position
