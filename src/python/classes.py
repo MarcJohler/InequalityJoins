@@ -7,6 +7,7 @@ Created on Tue Dec 20 00:47:57 2022
 import numpy as np
 import operator
 import pandas as pd
+import math
 
 # computes all pairs of the values of two arrays
 def pairs(arr1, arr2):
@@ -147,6 +148,47 @@ def jvec_ineqjoin(R, S, r, s, op):
     return result, len(result)
         
 
+# alternative approach by using dictionaries instead
+def jvec_smart_ineqjoin(R, S, r, s, op):
+    # initialize the arrays in the right order
+    r_sorted = np.sort(R[r])
+    rid = np.argsort(R[r])
+    s_sorted = np.sort(S[s])
+    sid = np.argsort(S[s])
+    if op in [operator.gt, operator.ge]:
+        r_sorted = r_sorted[::-1]
+        rid = rid[::-1]
+        s_sorted = s_sorted[::-1]
+        sid = sid[::-1]
+    
+    result = {}
+    result_lengths = np.repeat(0, len(R))
+    done = False
+    # check for the inequality constraints
+    for i in range(len(r_sorted)):
+        while 0 < len(s_sorted): 
+            if op(r_sorted[i], s_sorted[0]):
+                matchings = list(sid[0:])
+                rid_i = rid.index[i]
+                result[rid_i] = set(matchings)
+                result_lengths[rid_i] = len(matchings)
+                break
+            else: 
+                # delete indices from list
+                if len(s_sorted) > 1:
+                    s_sorted = s_sorted[1:]
+                    sid = sid[1:]
+                else:
+                    done = True
+                    break
+        # check if all entries have already been checked
+        if done:
+            break
+            
+    result = [item for sublist in result for item in sublist]
+    return result, result_lengths
+    
+    
 # function to compute the intersection of a list of tuple pairs efficiently
 def intersect_pairs(pair_lists, pair_list_lengths):
     # start with the shortes pair lists
@@ -156,6 +198,86 @@ def intersect_pairs(pair_lists, pair_list_lengths):
     for i in range(1, len(length_order)):
         result = set(result).intersection(set(pair_lists[length_order[i]]))
     return result
+
+def intersect_dicts(dict_1, dict_2, return_sizes):
+    new_dict = {}
+    sizes = np.array(len(dict_1))
+    for i in range(len(dict_1)):
+        for j in range(len(dict_2)):
+            intersection = dict_1[i].intersection(dict_2[j])
+            new_dict[i] = intersection
+            if return_sizes:
+                sizes[i] = len(intersection)
+        
+    if return_sizes:
+        new_dict, sizes
+    return new_dict
+
+def intersect_results(results_dicts, dict_lengths, strategy):
+    if strategy == "lazy":
+        sizes = [np.sum(lengths) for lengths in dict_lengths]
+        # start with the shortes pair lists
+        length_order = np.argsort(sizes)
+        # start the intersection
+        result = results_dicts[length_order[0]]
+        for i in range(1, len(length_order)):
+            result = intersect_dicts(result, results_dicts[i], return_sizes = False)
+        return result
+    elif strategy == "greedy":
+        sizes = [np.sum(lengths) for lengths in dict_lengths]
+        queue = set(range(len(dict_lengths)))
+        # start the intersection with the smallest join result
+        min_size = np.argmin(sizes)
+        result = results_dicts[min_size]
+        sizes = dict_lengths[min_size]
+        # delete the value from the queue 
+        queue = list(queue.difference(min_size))
+        # start the intersection
+        for i in range(len(dict_lengths) - 1):
+            # evaluate all possibilities
+            expected_size = np.zeros(len(queue))
+            for i in range(len(queue)):
+                result_i = queue[i]
+                expected_size[i] = np.sum(sizes * dict_lengths[result_i])
+            # find optimal result to intersect
+            best_choice = queue[np.argmin(expected_size)]
+            # intersect and save sizes
+            result, sizes = intersect_dicts(result, results_dicts[best_choice], return_sizes = True)
+            # delete from queue
+            queue = list(queue.difference(min_size))
+        return result
+    elif strategy == "exhaustive":
+        # initialize queue
+        queue = set(range(len(dict_lengths)))
+        # we need to intersect in total len(queue) - 1 times
+        for intersection in range(len(queue) - 1):
+            # initialize cost matrix
+            min_size = math.inf()
+            best_pair = None
+            # fill cost matrix
+            for i in range(len(queue) - 1):
+                for j in range(i + 1, len(queue)):
+                    expected_size = np.sum(dict_lengths[i] * dict_lengths[j])
+                    if expected_size <= min_size:
+                        min_size = expected_size
+                        best_pair = (i, j)
+            # overwrite the first index of the results_dict
+            results_dicts[best_pair[0]], dict_lengths[best_pair[0]] = intersect_dicts(results_dicts[best_pair[0]],
+                                                                                      results_dicts[best_pair[1]],
+                                                                                      return_sizes = True)
+            # delete the other value from the queue
+            queue = list(queue.difference(best_pair[1]))
+        # the only remaining dict will be returned
+        return results_dicts[0]
+            
+
+def materialize_pairs(result_dict):
+    result = []
+    for key in result_dict.keys():
+        result.append(pairs([key], result_dict[key]))
+    result = [item for sublist in result for item in sublist]
+    return result
+        
 
 # computes the antijoin with multiple join predicates
 def naive_ineqjoin_multicond_OLD(R, S, r, s, op):
@@ -225,7 +347,7 @@ def flexible_ineqjoin_multicond(R, S, r, s, op, sample_p = 0.05):
         #estimate selectivity
         sel = sample_res_len / (n_R * n_S)
         # take optimal algorithm dependent on selectivity
-        if sel < 0.6:
+        if sel < 0.5:
             results[i], res_lengths[i] = jvec_ineqjoin(R, S, r[i], s[i], op[i])
         else:
             results[i], res_lengths[i] = naive_ineqjoin(R, S, r[i], s[i], op[i])
@@ -261,6 +383,50 @@ def jvec_ineqjoin_multicond(R, S, r, s, op):
         results[i], res_lengths[i] = jvec_ineqjoin(R, S, r[i], s[i], op[i])
     # only consider tuples which fulfill every join condition
     result = intersect_pairs(results, res_lengths)
+    return result
+
+# computes the inequality join hopefully very efficient
+def jvec_smart_ineqjoin_multicond(R, S, r, s, op, intersect_strategy = "lazy"):
+    """
+
+    Parameters
+    ----------
+    R : pandas.data.frame
+        DESCRIPTION.
+    S : pandas.data.frame
+        DESCRIPTION.
+    r : array-like
+        DESCRIPTION.
+    s : array-like
+        DESCRIPTION.
+    op : array-like
+        DESCRIPTION.
+    intersect_strategy : string, optional
+        Indicates the strategy to intersect the partial results. 
+        If 'lazy' it simply takes the result with the lowest total size
+        If 'greedy' it starts with the smallest results and succesively intersects with the best option
+        If 'exhaustive' it looks for the tuples with the smallest intersection sets. 
+        The default is "lazy".
+
+    Returns
+    -------
+    result : set
+        Set containing all the result pairs
+
+    """
+    # check if the arguments are consistent
+    condition_len = len(op)
+    assert len(s) == condition_len
+    assert len(r) == condition_len
+    # for each join condition check the valid tuples
+    results = np.repeat(None, condition_len)
+    res_lengths = np.repeat(None, condition_len)
+    for i in range(condition_len):
+        results[i], res_lengths[i] = jvec_smart_ineqjoin(R, S, r[i], s[i], op[i])
+    # only consider tuples which fulfill every join condition
+    result = intersect_results(results, res_lengths, intersect_strategy)
+    # convert it into pairs format
+    result = materialize_pairs(result)
     return result
 
 def naive_selfjoin(R, r, op):
