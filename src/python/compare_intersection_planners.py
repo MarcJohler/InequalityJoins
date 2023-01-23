@@ -21,12 +21,12 @@ dicts_greedy_time = np.zeros(test_cases)
 dicts_exhaustive_time = np.zeros(test_cases)
 
 for i in range(test_cases):
-    predicate_len = 1
-    n1 = 1000
+    predicate_len = 10
+    n1 = 5
     R = np.random.randint(100, size = (n1, predicate_len)) 
     R = pd.DataFrame(R)
     
-    n2 = 500
+    n2 = 5
     S = np.random.randint(100, size = (n2, predicate_len)) 
     S = pd.DataFrame(S)
     
@@ -63,23 +63,21 @@ for i in range(test_cases):
     greedy_set = set(greedy_join_result)
     exhaustive_set = set(exhaustive_join_result)
     
-    assert baseline_set.subset(lazy_set)
-    assert baseline_set.superset(lazy_set)
-    assert baseline_set.subset(greedy_set)
-    assert baseline_set.superset(greedy_set)
-    assert baseline_set.subset(exhaustive_set)
-    assert baseline_set.superset(exhaustive_set)
+    assert baseline_set.issubset(lazy_set)
+    assert baseline_set.issuperset(lazy_set)
+    assert baseline_set.issubset(greedy_set)
+    assert baseline_set.issuperset(greedy_set)
+    assert baseline_set.issubset(exhaustive_set)
+    assert baseline_set.issuperset(exhaustive_set)
+        
     
     print("Test case", i)
     print("Time for baseline approach:", {toc_base - tic_base})
     baseline_time[i] = toc_base - tic_base
-    print("Test case", i)
     print("Time for lazy approach:", {toc_lazy - tic_lazy})
     dicts_lazy_time[i] = toc_lazy - tic_lazy
-    print("Test case", i)
     print("Time for greedy approach:", {toc_greedy - tic_greedy})
     dicts_greedy_time[i] = toc_greedy - tic_greedy
-    print("Test case", i)
     print("Time for exhaustive approach:", {toc_exhaustive - tic_exhaustive})
     dicts_exhaustive_time[i] = toc_exhaustive - tic_exhaustive
   

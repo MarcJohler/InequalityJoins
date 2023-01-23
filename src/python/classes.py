@@ -161,7 +161,8 @@ def jvec_smart_ineqjoin(R, S, r, s, op):
         s_sorted = s_sorted[::-1]
         sid = sid[::-1]
     
-    result = {}
+    # initialize result set
+    result = dict([(i, set()) for i in range(len(r_sorted))])
     result_lengths = np.repeat(0, len(R))
     done = False
     # check for the inequality constraints
@@ -169,7 +170,7 @@ def jvec_smart_ineqjoin(R, S, r, s, op):
         while 0 < len(s_sorted): 
             if op(r_sorted[i], s_sorted[0]):
                 matchings = list(sid[0:])
-                rid_i = rid.index[i]
+                rid_i = rid[rid.index[i]]
                 result[rid_i] = set(matchings)
                 result_lengths[rid_i] = len(matchings)
                 break
@@ -185,7 +186,6 @@ def jvec_smart_ineqjoin(R, S, r, s, op):
         if done:
             break
             
-    result = [item for sublist in result for item in sublist]
     return result, result_lengths
     
     
@@ -201,16 +201,15 @@ def intersect_pairs(pair_lists, pair_list_lengths):
 
 def intersect_dicts(dict_1, dict_2, return_sizes):
     new_dict = {}
-    sizes = np.array(len(dict_1))
+    sizes = np.zeros(len(dict_1))
     for i in range(len(dict_1)):
-        for j in range(len(dict_2)):
-            intersection = dict_1[i].intersection(dict_2[j])
-            new_dict[i] = intersection
-            if return_sizes:
-                sizes[i] = len(intersection)
+        intersection = dict_1[i].intersection(dict_2[i])
+        new_dict[i] = intersection
+        if return_sizes:
+            sizes[i] = len(intersection)    
         
     if return_sizes:
-        new_dict, sizes
+        return new_dict, sizes
     return new_dict
 
 def intersect_results(results_dicts, dict_lengths, strategy):
@@ -221,52 +220,70 @@ def intersect_results(results_dicts, dict_lengths, strategy):
         # start the intersection
         result = results_dicts[length_order[0]]
         for i in range(1, len(length_order)):
-            result = intersect_dicts(result, results_dicts[i], return_sizes = False)
+            result = intersect_dicts(result, results_dicts[length_order[i]], return_sizes = False)
         return result
     elif strategy == "greedy":
         sizes = [np.sum(lengths) for lengths in dict_lengths]
-        queue = set(range(len(dict_lengths)))
+        queue = list(range(len(dict_lengths)))
         # start the intersection with the smallest join result
         min_size = np.argmin(sizes)
         result = results_dicts[min_size]
         sizes = dict_lengths[min_size]
         # delete the value from the queue 
-        queue = list(queue.difference(min_size))
+        queue.pop(min_size)
         # start the intersection
         for i in range(len(dict_lengths) - 1):
-            # evaluate all possibilities
+            # if there is only one element left it is clear what to do
+            if len(queue) == 1:
+                result = intersect_dicts(result, results_dicts[queue[0]], return_sizes = False)
+                return result
+            # otherwise evaluate all possibilities
             expected_size = np.zeros(len(queue))
-            for i in range(len(queue)):
-                result_i = queue[i]
-                expected_size[i] = np.sum(sizes * dict_lengths[result_i])
+            for i, element in enumerate(queue):
+                expected_size[i] = np.sum(sizes * dict_lengths[element])
             # find optimal result to intersect
-            best_choice = queue[np.argmin(expected_size)]
+            min_size = np.argmin(expected_size)
+            best_choice = queue[min_size]
             # intersect and save sizes
             result, sizes = intersect_dicts(result, results_dicts[best_choice], return_sizes = True)
             # delete from queue
-            queue = list(queue.difference(min_size))
-        return result
+            queue.pop(min_size)
+            
+        # otherwise simply return the only result
+        return results_dicts[0]
+        
     elif strategy == "exhaustive":
         # initialize queue
-        queue = set(range(len(dict_lengths)))
+        queue = list(range(len(dict_lengths)))
+        # if there is only one element left it is clear what to do
+        if len(queue) == 1:
+            return results_dicts[0]
         # we need to intersect in total len(queue) - 1 times
         for intersection in range(len(queue) - 1):
+            # if there is only two elements left it is clear what to do
+            if len(queue) == 2:
+                result = intersect_dicts(results_dicts[queue[0]], results_dicts[queue[1]], return_sizes = False)
+                return result
             # initialize cost matrix
-            min_size = math.inf()
+            min_size = math.inf
             best_pair = None
             # fill cost matrix
             for i in range(len(queue) - 1):
+                element_i = queue[i]
                 for j in range(i + 1, len(queue)):
-                    expected_size = np.sum(dict_lengths[i] * dict_lengths[j])
-                    if expected_size <= min_size:
+                    element_j = queue[j]
+                    expected_size = np.sum(dict_lengths[element_i] * dict_lengths[element_j])
+                    if expected_size < min_size:
                         min_size = expected_size
                         best_pair = (i, j)
             # overwrite the first index of the results_dict
-            results_dicts[best_pair[0]], dict_lengths[best_pair[0]] = intersect_dicts(results_dicts[best_pair[0]],
-                                                                                      results_dicts[best_pair[1]],
-                                                                                      return_sizes = True)
+            element_i = queue[best_pair[0]]
+            element_j = queue[best_pair[1]]
+            results_dicts[element_i], dict_lengths[element_i] = intersect_dicts(results_dicts[element_i],
+                                                                                results_dicts[element_j],
+                                                                                return_sizes = True)
             # delete the other value from the queue
-            queue = list(queue.difference(best_pair[1]))
+            queue.pop(best_pair[1])
         # the only remaining dict will be returned
         return results_dicts[0]
             
@@ -274,7 +291,7 @@ def intersect_results(results_dicts, dict_lengths, strategy):
 def materialize_pairs(result_dict):
     result = []
     for key in result_dict.keys():
-        result.append(pairs([key], result_dict[key]))
+        result.append(pairs([key], list(result_dict[key])))
     result = [item for sublist in result for item in sublist]
     return result
         
