@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import time
 from classes import jvec_ineqjoin_multicond, jvec_smart_ineqjoin_multicond
 
-test_cases = 30
+test_cases = 100
 #np.random.seed(21)
 
 selectivity = np.zeros(test_cases)
@@ -21,12 +21,12 @@ dicts_greedy_time = np.zeros(test_cases)
 dicts_exhaustive_time = np.zeros(test_cases)
 
 for i in range(test_cases):
-    predicate_len = 10
+    predicate_len = 2
     n1 = 5
     R = np.random.randint(100, size = (n1, predicate_len)) 
     R = pd.DataFrame(R)
     
-    n2 = 5
+    n2 = 10
     S = np.random.randint(100, size = (n2, predicate_len)) 
     S = pd.DataFrame(S)
     
@@ -45,17 +45,19 @@ for i in range(test_cases):
                                                      intersect_strategy = "lazy")
     toc_lazy = time.perf_counter()
     
+    # measure time for exhaustive strategy with dictionaries
+    tic_exhaustive = time.perf_counter()
+    exhaustive_join_result = jvec_smart_ineqjoin_multicond(R, S,  predicate, predicate, operators,
+                                                           intersect_strategy = "exhaustive")
+    toc_exhaustive = time.perf_counter()
+    
     # measure time for lazy strategy with dictionaries
     tic_greedy = time.perf_counter()
     greedy_join_result = jvec_smart_ineqjoin_multicond(R, S,  predicate, predicate, operators,
                                                        intersect_strategy = "greedy")
     toc_greedy = time.perf_counter()
     
-    # measure time for exhaustive strategy with dictionaries
-    tic_exhaustive = time.perf_counter()
-    exhaustive_join_result = jvec_smart_ineqjoin_multicond(R, S,  predicate, predicate, operators,
-                                                           intersect_strategy = "exhaustive")
-    toc_exhaustive = time.perf_counter()
+   
     
     
     baseline_set = set(baseline_join_result)

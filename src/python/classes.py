@@ -8,6 +8,7 @@ import numpy as np
 import operator
 import pandas as pd
 import math
+import copy 
 
 # computes all pairs of the values of two arrays
 def pairs(arr1, arr2):
@@ -288,10 +289,14 @@ def intersect_results(results_dicts, dict_lengths, strategy):
         return results_dicts[0]
             
 
-def materialize_pairs(result_dict):
+def materialize_pairs(result_dict, inverted = False):
     result = []
-    for key in result_dict.keys():
-        result.append(pairs([key], list(result_dict[key])))
+    if inverted:
+        for key in result_dict.keys():
+            result.append(pairs(list(result_dict[key]), [key]))
+    else:
+        for key in result_dict.keys():
+            result.append(pairs([key], list(result_dict[key])))
     result = [item for sublist in result for item in sublist]
     return result
         
@@ -438,12 +443,33 @@ def jvec_smart_ineqjoin_multicond(R, S, r, s, op, intersect_strategy = "lazy"):
     # for each join condition check the valid tuples
     results = np.repeat(None, condition_len)
     res_lengths = np.repeat(None, condition_len)
-    for i in range(condition_len):
-        results[i], res_lengths[i] = jvec_smart_ineqjoin(R, S, r[i], s[i], op[i])
+    # if R has more rows than S switch it with S
+    inverted = False
+    # otherwise the object in the memory will be changed instead of only the variable
+    use_operators = copy.deepcopy(op)
+    if len(R) > len(S):
+        inverted = True
+        # change operators
+        for i in range(condition_len):
+            if op[i] == operator.lt:
+                use_operators[i] = operator.gt
+            elif op[i] == operator.le:
+                use_operators[i] = operator.ge
+            elif op[i] == operator.gt:
+                use_operators[i] = operator.lt
+            elif op[i] == operator.ge:
+                use_operators[i] = operator.le
+        # apply loop        
+        for i in range(condition_len):
+            results[i], res_lengths[i] = jvec_smart_ineqjoin(S, R, s[i], r[i], use_operators[i])
+    else:
+        for i in range(condition_len):
+            results[i], res_lengths[i] = jvec_smart_ineqjoin(R, S, r[i], s[i], use_operators[i])
+    
     # only consider tuples which fulfill every join condition
     result = intersect_results(results, res_lengths, intersect_strategy)
     # convert it into pairs format
-    result = materialize_pairs(result)
+    result = materialize_pairs(result, inverted = inverted)
     return result
 
 def naive_selfjoin(R, r, op):
