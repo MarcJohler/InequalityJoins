@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import time
 from classes import compare_intersection_planners
 
-test_cases = 10
+test_cases = 1
 #np.random.seed(21)
 
 selectivity = np.zeros(test_cases)
@@ -46,4 +46,5 @@ for i in range(test_cases):
     
     operators = np.random.choice([operator.lt, operator.le], predicate_len)
     
-    compare_intersection_planners(R, S, predicate, predicate, operators, show_first=10)
+    res = compare_intersection_planners(R, S, predicate, predicate, operators, show_first=30)
+    
