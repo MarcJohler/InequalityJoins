@@ -9,6 +9,8 @@ import operator
 import pandas as pd
 import math
 import copy 
+import time
+import matplotlib.pyplot as plt
 
 # computes all pairs of the values of two arrays
 def pairs(arr1, arr2):
@@ -200,56 +202,77 @@ def intersect_pairs(pair_lists, pair_list_lengths):
         result = set(result).intersection(set(pair_lists[length_order[i]]))
     return result
 
-def intersect_dicts(dict_1, dict_2, return_sizes):
+def intersect_dicts(dict_1, dict_2, return_lengths):
     new_dict = {}
-    sizes = np.zeros(len(dict_1))
+    lengths = np.zeros(len(dict_1))
     for i in range(len(dict_1)):
         intersection = dict_1[i].intersection(dict_2[i])
         new_dict[i] = intersection
-        if return_sizes:
-            sizes[i] = len(intersection)    
+        if return_lengths:
+            lengths[i] = len(intersection)    
         
-    if return_sizes:
-        return new_dict, sizes
+    if return_lengths:
+        return new_dict, lengths
     return new_dict
 
-def intersect_results(results_dicts, dict_lengths, strategy):
+def intersect_results(results_dicts, dict_lengths, strategy, evaluation_mode = False):
+    # do this only if in evaluation mode
+    if evaluation_mode:
+        current_comparisons = np.zeros(len(dict_lengths) - 1)
+        iteration_time = np.zeros(len(dict_lengths) - 1)
+    
     if strategy == "lazy":
         sizes = [np.sum(lengths) for lengths in dict_lengths]
         # start with the shortes pair lists
-        length_order = np.argsort(sizes)
+        size_order = np.argsort(sizes)
         # start the intersection
-        result = results_dicts[length_order[0]]
-        for i in range(1, len(length_order)):
-            result = intersect_dicts(result, results_dicts[length_order[i]], return_sizes = False)
+        result = results_dicts[size_order[0]]
+        for i in range(1, len(size_order)):
+            tic = time.perf_counter()
+            result, lengths = intersect_dicts(result, results_dicts[size_order[i]], return_lengths = True)
+            current_comparisons[i - 1] = np.sum(lengths * dict_lengths[size_order[i]])
+            iteration_time[i - 1] = time.perf_counter() - tic
+        # if in evaluation mode return metrics 
+        if evaluation_mode:
+            return current_comparisons, iteration_time
         return result
+    
     elif strategy == "greedy":
         sizes = [np.sum(lengths) for lengths in dict_lengths]
         queue = list(range(len(dict_lengths)))
         # start the intersection with the smallest join result
         min_size = np.argmin(sizes)
         result = results_dicts[min_size]
-        sizes = dict_lengths[min_size]
+        lengths = dict_lengths[min_size]
         # delete the value from the queue 
         queue.pop(min_size)
         # start the intersection
         for i in range(len(dict_lengths) - 1):
+            tic = time.perf_counter()
             # if there is only one element left it is clear what to do
             if len(queue) == 1:
-                result = intersect_dicts(result, results_dicts[queue[0]], return_sizes = False)
+                result = intersect_dicts(result, results_dicts[queue[0]], return_lengths = True)
+                # if in evaluation mode return metrics 
+                if evaluation_mode:
+                    return current_comparisons, iteration_time
                 return result
             # otherwise evaluate all possibilities
-            expected_size = np.zeros(len(queue))
-            for i, element in enumerate(queue):
-                expected_size[i] = np.sum(sizes * dict_lengths[element])
+            expected_comparisons = np.zeros(len(queue))
+            for j, element in enumerate(queue):
+                expected_comparisons[j] = np.sum(lengths * dict_lengths[element])
             # find optimal result to intersect
-            min_size = np.argmin(expected_size)
-            best_choice = queue[min_size]
+            min_comparisons = np.argmin(expected_comparisons)
+            # extract the best choice
+            best_choice = queue[min_comparisons]
+            # remember the size of the result
+            current_comparisons[i] = np.sum(lengths * dict_lengths[best_choice])
             # intersect and save sizes
-            result, sizes = intersect_dicts(result, results_dicts[best_choice], return_sizes = True)
+            result, lengths = intersect_dicts(result, results_dicts[best_choice], return_lengths = True)
             # delete from queue
             queue.pop(min_size)
-            
+            # remember the time
+            iteration_time[i] = time.perf_counter() - tic
+
         # otherwise simply return the only result
         return results_dicts[0]
         
@@ -261,30 +284,39 @@ def intersect_results(results_dicts, dict_lengths, strategy):
             return results_dicts[0]
         # we need to intersect in total len(queue) - 1 times
         for intersection in range(len(queue) - 1):
+            tic = time.perf_counter()
             # if there is only two elements left it is clear what to do
             if len(queue) == 2:
-                result = intersect_dicts(results_dicts[queue[0]], results_dicts[queue[1]], return_sizes = False)
+                result = intersect_dicts(results_dicts[queue[0]], results_dicts[queue[1]], return_lengths = False)
+                # if in evaluation mode return metrics 
+                if evaluation_mode:
+                    return current_comparisons, iteration_time
                 return result
             # initialize cost matrix
-            min_size = math.inf
+            min_comparisons = math.inf
             best_pair = None
             # fill cost matrix
             for i in range(len(queue) - 1):
                 element_i = queue[i]
                 for j in range(i + 1, len(queue)):
                     element_j = queue[j]
-                    expected_size = np.sum(dict_lengths[element_i] * dict_lengths[element_j])
-                    if expected_size < min_size:
-                        min_size = expected_size
+                    expected_comparisons = np.sum(dict_lengths[element_i] * dict_lengths[element_j])
+                    if expected_comparisons < min_comparisons:
+                        min_comparisons = expected_comparisons
                         best_pair = (i, j)
             # overwrite the first index of the results_dict
             element_i = queue[best_pair[0]]
             element_j = queue[best_pair[1]]
+            # remember the size of the result
+            current_comparisons[intersection] = np.sum(dict_lengths[element_i] * dict_lengths[element_j])
             results_dicts[element_i], dict_lengths[element_i] = intersect_dicts(results_dicts[element_i],
                                                                                 results_dicts[element_j],
-                                                                                return_sizes = True)
+                                                                                return_lengths = True)
             # delete the other value from the queue
             queue.pop(best_pair[1])
+            # remember the time
+            iteration_time[intersection] = time.perf_counter() - tic
+            
         # the only remaining dict will be returned
         return results_dicts[0]
             
@@ -466,11 +498,47 @@ def jvec_smart_ineqjoin_multicond(R, S, r, s, op, intersect_strategy = "lazy"):
         for i in range(condition_len):
             results[i], res_lengths[i] = jvec_smart_ineqjoin(R, S, r[i], s[i], use_operators[i])
     
+    if not intersect_strategy:
+        return results, res_lengths
+    
     # only consider tuples which fulfill every join condition
     result = intersect_results(results, res_lengths, intersect_strategy)
     # convert it into pairs format
     result = materialize_pairs(result, inverted = inverted)
     return result
+
+def compare_intersection_planners(R, S, r, s, op, show_first = 10):
+    # compute the single join results
+    results, res_lengths = jvec_smart_ineqjoin_multicond(R, S, r, s, op, intersect_strategy = False)
+    
+    lazy_comparisons, lazy_time = intersect_results(results, res_lengths, "lazy", evaluation_mode = True)
+    greedy_comparisons, greedy_time = intersect_results(results, res_lengths, "greedy", evaluation_mode = True)
+    exhaustive_comparisons, exhaustive_time = intersect_results(results, res_lengths, "exhaustive", evaluation_mode = True)
+    
+    x_vals = range(2, np.min([len(results) + 1, show_first + 2]))
+    
+    # plot for size
+    fig, ax = plt.subplots()
+    plt.scatter(x_vals, lazy_comparisons[0:show_first], label = "Lazy Approach - Number of comparisons")
+    plt.scatter(x_vals, greedy_comparisons[0:show_first], label = "Greedy Approach - Number of comparisons")
+    plt.scatter(x_vals, exhaustive_comparisons[0:show_first], label = "Exhaustive Approach - Number of comparisons")
+    ax.legend()
+    plt.show()
+    
+    # plot for time
+    # plot for size
+    fig, ax = plt.subplots()
+    plt.scatter(x_vals, lazy_time[0:show_first], label = "Lazy Approach - Iteration Time")
+    plt.scatter(x_vals, greedy_time[0:show_first], label = "Greedy Approach - Iteration Time")
+    plt.scatter(x_vals, exhaustive_time[0:show_first], label = "Exhaustive Approach - Iteration Time")
+    ax.legend()
+    plt.show()
+    
+    return [[lazy_comparisons, lazy_time],
+            [greedy_comparisons, greedy_time],
+            [exhaustive_comparisons, exhaustive_time]]
+    
+
 
 def naive_selfjoin(R, r, op):
     r_sorted = np.sort(R[r])
