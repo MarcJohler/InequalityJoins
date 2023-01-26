@@ -355,6 +355,22 @@ def intersect_results(results_dicts, dict_lengths, strategy, threshold_param = 2
         # the only remaining dict will be returned
         return results_dicts[0]
     
+    elif strategy == "smart":
+        # deep copy of variables which are to be changed
+        final_result_dict = {}
+        # start iterating
+        for i in range(len(results_dicts[0])):
+            order_i = np.argsort(dict_lengths[:,i])
+            result = results_dicts[order_i[0]][i]
+            for j in range(1, len(order_i)):
+                result = result.intersection(results_dicts[order_i[j]][i])
+                if len(result) == 0:
+                    break
+            final_result_dict[i] = result
+        if evaluation_mode == "total":
+            return time.perf_counter() - tic_total
+        return final_result_dict
+                
     elif strategy == "adaptive":
         sizes = [np.sum(lengths) for lengths in dict_lengths]
         queue = list(range(len(dict_lengths)))
@@ -611,30 +627,36 @@ def compare_intersection_planners(R, S, r, s, op, show_first = 10):
     # compute the single join results
     results, res_lengths = jvec_smart_ineqjoin_multicond(R, S, r, s, op, intersect_strategy = False)
     
-    """
+    
     # check if results are correct
     res_lazy = intersect_results(results, res_lengths, "lazy", evaluation_mode = False)
     res_greedy = intersect_results(results, res_lengths, "greedy", evaluation_mode = False)
-    res_exh = intersect_results(results, res_lengths, "exhaustive", evaluation_mode = False)
-    res_ada = intersect_results(results, res_lengths, "adaptive", evaluation_mode = False)
+    #res_exh = intersect_results(results, res_lengths, "exhaustive", evaluation_mode = False)
+    #res_ada = intersect_results(results, res_lengths, "adaptive", evaluation_mode = False)
+    res_smart = intersect_results(results, res_lengths, "smart", evaluation_mode = False)
     
     set_lazy = set(materialize_pairs(res_lazy, inverted = len(R) > len(S)))
     set_greedy = set(materialize_pairs(res_greedy, inverted = len(R) > len(S)))
-    set_exh = set(materialize_pairs(res_exh, inverted = len(R) > len(S)))
-    set_ada = set(materialize_pairs(res_ada, inverted = len(R) > len(S)))
+    #set_exh = set(materialize_pairs(res_exh, inverted = len(R) > len(S)))
+    #set_ada = set(materialize_pairs(res_ada, inverted = len(R) > len(S)))
+    set_smart = set(materialize_pairs(res_smart, inverted = len(R) > len(S)))
+    
     assert set_lazy.issubset(set_greedy)
     assert set_lazy.issuperset(set_greedy)
-    assert set_lazy.issubset(set_exh)
-    assert set_lazy.issuperset(set_exh)
-    assert set_lazy.issubset(set_ada)
-    assert set_lazy.issuperset(set_ada)
+    #assert set_lazy.issubset(set_exh)
+    #assert set_lazy.issuperset(set_exh)
+    #assert set_lazy.issubset(set_ada)
+    #assert set_lazy.issuperset(set_ada)#
+    assert set_lazy.issubset(set_smart)
+    assert set_lazy.issuperset(set_smart)
     
     """
     # evaluate
     lazy_time = intersect_results(results, res_lengths, "lazy", evaluation_mode = "iteration")
     greedy_time = intersect_results(results, res_lengths, "greedy", evaluation_mode = "iteration")
-    exhaustive_time = intersect_results(results, res_lengths, "exhaustive", evaluation_mode = "iteration")
-    adaptive_time = intersect_results(results, res_lengths, "adaptive", evaluation_mode = "iteration")
+    #exhaustive_time = intersect_results(results, res_lengths, "exhaustive", evaluation_mode = "iteration")
+    #adaptive_time = intersect_results(results, res_lengths, "adaptive", evaluation_mode = "iteration")
+    smart_time = intersect_results(results, res_lengths, "smart", evaluation_mode = "iteration")
     
     x_vals = range(2, np.min([len(results) + 1, show_first + 2]))
     
@@ -642,14 +664,15 @@ def compare_intersection_planners(R, S, r, s, op, show_first = 10):
     fig, ax = plt.subplots()
     plt.scatter(x_vals, lazy_time[0:show_first], label = "Lazy Approach - Iteration Time")
     plt.scatter(x_vals, greedy_time[0:show_first], label = "Greedy Approach - Iteration Time")
-    plt.scatter(x_vals, exhaustive_time[0:show_first], label = "Exhaustive Approach - Iteration Time")
-    plt.scatter(x_vals, adaptive_time[0:show_first], label = "Adaptive Approach - Iteration Time")
+    #plt.scatter(x_vals, exhaustive_time[0:show_first], label = "Exhaustive Approach - Iteration Time")
+    #plt.scatter(x_vals, adaptive_time[0:show_first], label = "Adaptive Approach - Iteration Time")
+    plt.scatter(x_vals, smart_time[0:show_first], label = "Smart Approach - Iteration Time")
     ax.legend()
     plt.show()
     
-    
-    return [np.mean(lazy_time), np.mean(greedy_time), np.mean(exhaustive_time), np.mean(adaptive_time)]
-    
+    #return [np.mean(lazy_time), np.mean(greedy_time), np.mean(exhaustive_time), np.mean(adaptive_time), np.mean(smart_time)]
+    return [np.mean(lazy_time), np.mean(greedy_time), np.mean(smart_time)]
+    """
 
 
 def naive_selfjoin(R, r, op):
