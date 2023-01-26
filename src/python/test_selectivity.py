@@ -90,7 +90,7 @@ for i in range(test_cases):
     
     # measure time for naive approach
     tic_j = time.perf_counter()
-    jvec_join_result = jvec_ineqjoin_multicond(R, S,  predicate, predicate, operators, True)
+    jvec_join_result = jvec_ineqjoin_multicond(R, S,  predicate, predicate, operators)
     toc_j = time.perf_counter()
     
     

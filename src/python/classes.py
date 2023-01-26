@@ -202,23 +202,32 @@ def intersect_pairs(pair_lists, pair_list_lengths):
         result = set(result).intersection(set(pair_lists[length_order[i]]))
     return result
 
-def intersect_dicts(dict_1, dict_2, return_lengths):
+def intersect_dicts(dict_1, dict_2, return_lengths = False, return_size = False):
+    # initialize variable containers
     new_dict = {}
-    lengths = np.zeros(len(dict_1))
+    if return_lengths:
+        lengths = np.zeros(len(dict_1))
+    if return_size:
+        size = 0
+    # start intersection process
     for i in range(len(dict_1)):
         intersection = dict_1[i].intersection(dict_2[i])
         new_dict[i] = intersection
         if return_lengths:
-            lengths[i] = len(intersection)    
-        
+            lengths[i] = len(intersection)
+        elif return_size:
+            size += len(intersection)
+    # return required information
     if return_lengths:
         return new_dict, lengths
+    elif return_size:
+        return new_dict, size
     return new_dict
 
-def intersect_results(results_dicts, dict_lengths, strategy, normalize_by, evaluation_mode = False):
+def intersect_results(results_dicts, dict_lengths, strategy, threshold_param = 2, evaluation_mode = False):
     # only necessary if in evaluation mode
-    current_comparisons = np.zeros(len(dict_lengths) - 1)
     iteration_time = np.zeros(len(dict_lengths) - 1)
+    tic_total = time.perf_counter()
     
     if strategy == "lazy":
         sizes = [np.sum(lengths) for lengths in dict_lengths]
@@ -226,15 +235,23 @@ def intersect_results(results_dicts, dict_lengths, strategy, normalize_by, evalu
         size_order = np.argsort(sizes)
         # start the intersection
         result = results_dicts[size_order[0]]
-        lengths = dict_lengths[size_order[0]]
         for i in range(1, len(size_order)):
             tic = time.perf_counter()
-            current_comparisons[i - 1] = np.sum(np.min(np.stack([lengths, dict_lengths[size_order[i]]]), axis = 0))
-            result, lengths = intersect_dicts(result, results_dicts[size_order[i]], return_lengths = True)
+            result, size = intersect_dicts(result, results_dicts[size_order[i]], return_size = True)
+            # check if result is empty
+            if size == 0:
+                # if in evaluation mode return metrics 
+                if evaluation_mode == "iteration":
+                    return iteration_time
+                elif evaluation_mode == "total":
+                    return time.perf_counter() - tic_total
+                return result
             iteration_time[i - 1] = time.perf_counter() - tic
         # if in evaluation mode return metrics 
-        if evaluation_mode:
-            return current_comparisons, iteration_time
+        if evaluation_mode == "iteration":
+            return iteration_time
+        elif evaluation_mode == "total":
+            return time.perf_counter() - tic_total
         return result
     
     elif strategy == "greedy":
@@ -253,8 +270,10 @@ def intersect_results(results_dicts, dict_lengths, strategy, normalize_by, evalu
             if len(queue) == 1:
                 result = intersect_dicts(result, results_dicts[queue[0]], return_lengths = False)
                 # if in evaluation mode return metrics 
-                if evaluation_mode:
-                    return current_comparisons, iteration_time
+                if evaluation_mode == "iteration":
+                    return iteration_time
+                elif evaluation_mode == "total":
+                    return time.perf_counter() - tic_total
                 return result
             # otherwise evaluate all possibilities
             expected_comparisons = np.zeros(len(queue))
@@ -264,10 +283,15 @@ def intersect_results(results_dicts, dict_lengths, strategy, normalize_by, evalu
             min_comparisons = np.argmin(expected_comparisons)
             # extract the best choice
             best_choice = queue[min_comparisons]
-            # remember the size of the result
-            current_comparisons[i] = np.sum(np.min(np.stack([lengths, dict_lengths[best_choice]]), axis = 0))
             # intersect and save sizes
             result, lengths = intersect_dicts(result, results_dicts[best_choice], return_lengths = True)
+            # check if result is empty
+            if np.sum(lengths) == 0:
+                if evaluation_mode == "iteration":
+                    return iteration_time
+                elif evaluation_mode == "total":
+                    return time.perf_counter() - tic_total
+                return result
             # delete from queue
             queue.pop(min_comparisons)
             # remember the time
@@ -277,6 +301,9 @@ def intersect_results(results_dicts, dict_lengths, strategy, normalize_by, evalu
         return results_dicts[0]
         
     elif strategy == "exhaustive":
+        # deep copy of variables which are to be changed
+        results_dicts = copy.deepcopy(results_dicts)
+        dict_lengths = copy.deepcopy(dict_lengths)
         # initialize queue
         queue = list(range(len(dict_lengths)))
         # if there is only one element left it is clear what to do
@@ -289,8 +316,10 @@ def intersect_results(results_dicts, dict_lengths, strategy, normalize_by, evalu
             if len(queue) == 2:
                 result = intersect_dicts(results_dicts[queue[0]], results_dicts[queue[1]], return_lengths = False)
                 # if in evaluation mode return metrics 
-                if evaluation_mode:
-                    return current_comparisons, iteration_time
+                if evaluation_mode == "iteration":
+                    return iteration_time
+                elif evaluation_mode == "total":
+                    return time.perf_counter() - tic_total
                 return result
             # initialize cost matrix
             min_comparisons = math.inf
@@ -307,12 +336,17 @@ def intersect_results(results_dicts, dict_lengths, strategy, normalize_by, evalu
             # overwrite the first index of the results_dict
             element_i = queue[best_pair[0]]
             element_j = queue[best_pair[1]]
-            # remember the size of the result
-            current_comparisons[intersection] = np.sum(np.min(np.stack([dict_lengths[element_i], dict_lengths[element_j]]), axis = 0))
-            
+            # compute the intersection
             results_dicts[element_i], dict_lengths[element_i] = intersect_dicts(results_dicts[element_i],
                                                                                 results_dicts[element_j],
                                                                                 return_lengths = True)
+            # check if result is empty
+            if np.sum(dict_lengths[element_i]) == 0:
+                if evaluation_mode == "iteration":
+                    return iteration_time
+                elif evaluation_mode == "total":
+                    return time.perf_counter() - tic_total
+                return results_dicts[element_i]
             # delete the other value from the queue
             queue.pop(best_pair[1])
             # remember the time
@@ -320,8 +354,73 @@ def intersect_results(results_dicts, dict_lengths, strategy, normalize_by, evalu
             
         # the only remaining dict will be returned
         return results_dicts[0]
+    
+    elif strategy == "adaptive":
+        sizes = [np.sum(lengths) for lengths in dict_lengths]
+        queue = list(range(len(dict_lengths)))
+        # start the intersection with the smallest join result
+        min_size = np.argmin(sizes)
+        result = results_dicts[min_size]
+        lengths = dict_lengths[min_size]
+        # delete the value from the queue 
+        queue.pop(min_size)
+        # start the intersection
+        for i in range(len(dict_lengths) - 1):
+            tic = time.perf_counter()
+            # if there is only one element left it is clear what to do
+            if len(queue) == 1:
+                result = intersect_dicts(result, results_dicts[queue[0]], return_lengths = False)
+                # if in evaluation mode return metrics 
+                if evaluation_mode == "iteration":
+                    return iteration_time
+                elif evaluation_mode == "total":
+                    return time.perf_counter() - tic_total
+                return result
+            # otherwise evaluate all possibilities
+            expected_comparisons = np.zeros(len(queue))
+            for j, element in enumerate(queue):
+                expected_comparisons[j] = np.sum(np.min(np.stack([lengths, dict_lengths[element]]), axis = 0))
+            # find optimal result to intersect
+            min_comparisons = np.argmin(expected_comparisons)
+            # extract the best choice
+            best_choice = queue[min_comparisons]
+            # intersect and save sizes
+            result, lengths = intersect_dicts(result, results_dicts[best_choice], return_lengths = True)
+            # check if result is empty
+            if np.sum(lengths) == 0:
+                if evaluation_mode == "iteration":
+                    return iteration_time
+                elif evaluation_mode == "total":
+                    return time.perf_counter() - tic_total
+                return result
+            # delete from queue
+            queue.pop(min_comparisons)
+            # remember the time
+            iteration_time[i] = time.perf_counter() - tic
+            # check if it still pays off to optimize intersection partner
+            if np.sum(lengths) < len(lengths) * len(queue) * threshold_param:
+                break
             
+        # if algorithms has not finished yet proceed with lazy choice of intersection partner
+        if len(queue) > 1:
+            if evaluation_mode == "iteration":
+                iteration_time_lazy = intersect_results(np.append(result, results_dicts[queue]), 
+                                                        np.concatenate([np.reshape(lengths, (1, len(lengths))), dict_lengths[queue]]), 
+                                                        "lazy", evaluation_mode = "iteration")
+                iteration_time[-len(iteration_time_lazy):] = iteration_time_lazy
+                return iteration_time
+            else:
+                final_result = intersect_results(np.append(result, results_dicts[queue]), 
+                                                 np.concatenate([np.reshape(lengths, (1, len(lengths))), dict_lengths[queue]]), 
+                                                 "lazy", evaluation_mode = False)
+                if evaluation_mode == "total":
+                    return time.perf_counter() - tic_total
+                return final_result
+            
+        # otherwise simply return the only result
+        return results_dicts[0]
 
+        
 def materialize_pairs(result_dict, inverted = False):
     result = []
     if inverted:
@@ -475,7 +574,7 @@ def jvec_smart_ineqjoin_multicond(R, S, r, s, op, intersect_strategy = "lazy"):
     assert len(r) == condition_len
     # for each join condition check the valid tuples
     results = np.repeat(None, condition_len)
-    res_lengths = np.repeat(None, condition_len)
+    res_lengths = np.zeros(shape = (condition_len, min(len(S), len(R))))
     # if R has more rows than S switch it with S
     inverted = False
     # otherwise the object in the memory will be changed instead of only the variable
@@ -503,7 +602,7 @@ def jvec_smart_ineqjoin_multicond(R, S, r, s, op, intersect_strategy = "lazy"):
         return results, res_lengths
     
     # only consider tuples which fulfill every join condition
-    result = intersect_results(results, res_lengths, intersect_strategy, normalize_by = max(len(R), len(S)))
+    result = intersect_results(results, res_lengths, intersect_strategy)
     # convert it into pairs format
     result = materialize_pairs(result, inverted = inverted)
     return result
@@ -511,52 +610,45 @@ def jvec_smart_ineqjoin_multicond(R, S, r, s, op, intersect_strategy = "lazy"):
 def compare_intersection_planners(R, S, r, s, op, show_first = 10):
     # compute the single join results
     results, res_lengths = jvec_smart_ineqjoin_multicond(R, S, r, s, op, intersect_strategy = False)
+    
     """
     # check if results are correct
-    res_lazy = intersect_results(results, res_lengths, "lazy", normalize_by = max(len(R), len(S)), evaluation_mode = False)
-    res_greedy = intersect_results(results, res_lengths, "greedy", normalize_by = max(len(R), len(S)), evaluation_mode = False)
-    res_exh = intersect_results(results, res_lengths, "exhaustive", normalize_by = max(len(R), len(S)), evaluation_mode = False)
+    res_lazy = intersect_results(results, res_lengths, "lazy", evaluation_mode = False)
+    res_greedy = intersect_results(results, res_lengths, "greedy", evaluation_mode = False)
+    res_exh = intersect_results(results, res_lengths, "exhaustive", evaluation_mode = False)
+    res_ada = intersect_results(results, res_lengths, "adaptive", evaluation_mode = False)
     
     set_lazy = set(materialize_pairs(res_lazy, inverted = len(R) > len(S)))
     set_greedy = set(materialize_pairs(res_greedy, inverted = len(R) > len(S)))
     set_exh = set(materialize_pairs(res_exh, inverted = len(R) > len(S)))
+    set_ada = set(materialize_pairs(res_ada, inverted = len(R) > len(S)))
     assert set_lazy.issubset(set_greedy)
     assert set_lazy.issuperset(set_greedy)
     assert set_lazy.issubset(set_exh)
     assert set_lazy.issuperset(set_exh)
+    assert set_lazy.issubset(set_ada)
+    assert set_lazy.issuperset(set_ada)
+    
     """
-    
     # evaluate
-    
-    lazy_comparisons, lazy_time = intersect_results(results, res_lengths, "lazy", 
-                                                    normalize_by = max(len(R), len(S)), evaluation_mode = True)
-    greedy_comparisons, greedy_time = intersect_results(results, res_lengths, "greedy", 
-                                                        normalize_by = max(len(R), len(S)), evaluation_mode = True)
-    exhaustive_comparisons, exhaustive_time = intersect_results(results, res_lengths, "exhaustive", 
-                                                                normalize_by = max(len(R), len(S)), evaluation_mode = True)
+    lazy_time = intersect_results(results, res_lengths, "lazy", evaluation_mode = "iteration")
+    greedy_time = intersect_results(results, res_lengths, "greedy", evaluation_mode = "iteration")
+    exhaustive_time = intersect_results(results, res_lengths, "exhaustive", evaluation_mode = "iteration")
+    adaptive_time = intersect_results(results, res_lengths, "adaptive", evaluation_mode = "iteration")
     
     x_vals = range(2, np.min([len(results) + 1, show_first + 2]))
     
-    # plot for size
-    fig, ax = plt.subplots()
-    plt.scatter(x_vals, lazy_comparisons[0:show_first], label = "Lazy Approach - Number of comparisons")
-    plt.scatter(x_vals, greedy_comparisons[0:show_first], label = "Greedy Approach - Number of comparisons")
-    plt.scatter(x_vals, exhaustive_comparisons[0:show_first], label = "Exhaustive Approach - Number of comparisons")
-    ax.legend()
-    plt.show()
-    
     # plot for time
-    # plot for size
     fig, ax = plt.subplots()
     plt.scatter(x_vals, lazy_time[0:show_first], label = "Lazy Approach - Iteration Time")
     plt.scatter(x_vals, greedy_time[0:show_first], label = "Greedy Approach - Iteration Time")
     plt.scatter(x_vals, exhaustive_time[0:show_first], label = "Exhaustive Approach - Iteration Time")
+    plt.scatter(x_vals, adaptive_time[0:show_first], label = "Adaptive Approach - Iteration Time")
     ax.legend()
     plt.show()
     
-    return [[lazy_comparisons, lazy_time],
-            [greedy_comparisons, greedy_time],
-            [exhaustive_comparisons, exhaustive_time]]
+    
+    return [np.mean(lazy_time), np.mean(greedy_time), np.mean(exhaustive_time), np.mean(adaptive_time)]
     
 
 
